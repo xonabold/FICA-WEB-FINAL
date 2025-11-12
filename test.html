@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test FICA</title>
+    <link rel="stylesheet" href="project-root/src/assets/css/styles.css">
+</head>
+<body>
+    <h1>Test de Funcionalidades FICA</h1>
+    
+    <!-- Test Selector de Idioma -->
+    <div style="margin: 20px; padding: 20px; border: 1px solid #ccc;">
+        <h2>Test Selector de Idioma</h2>
+        <div class="lang" data-lang-selector>
+            <button class="lang__btn" id="testLangToggle" aria-expanded="false" aria-label="Selector de idioma">
+                <span data-lang-text>ES</span>
+            </button>
+            <ul class="lang__menu" id="testLangMenu" hidden>
+                <li><button type="button" data-lang="es">Español</button></li>
+                <li><button type="button" data-lang="ca">Català</button></li>
+                <li><button type="button" data-lang="eu">Euskera</button></li>
+                <li><button type="button" data-lang="gl">Galego</button></li>
+                <li><button type="button" data-lang="en">English</button></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Test Tarjeta -->
+    <div style="margin: 20px; padding: 20px; border: 1px solid #ccc;">
+        <h2>Test Tarjeta</h2>
+        <section id="prensa">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="project-root/src/assets/images/prensa1.jpg" alt="Test" />
+                            <div class="card-body">
+                                <h3 class="card-title">Título de Prueba</h3>
+                                <p class="card-text">Descripción de prueba para ver el posicionamiento del texto.</p>
+                                <a href="#" class="btn btn-primary">Leer más</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="project-root/src/js/main.js"></script>
+    <script>
+        // Log adicional para debug
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🧪 Página de test cargada');
+            console.log('🌐 Selectores encontrados:', document.querySelectorAll('[data-lang-selector]').length);
+            console.log('🃏 Tarjetas encontradas:', document.querySelectorAll('#prensa .card').length);
+        });
+    </script>
+</body>
+</html>

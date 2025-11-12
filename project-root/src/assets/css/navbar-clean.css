@@ -1,0 +1,176 @@
+/* =======================================================
+   🔥 NAVBAR CLEAN - MÁXIMA ESPECIFICIDAD
+   ======================================================= */
+
+/* ===== RESET Y BASE CON ALTA ESPECIFICIDAD ===== */
+.header .nav .nav__toggle {
+  display: none !important;
+  flex-direction: column !important;
+  justify-content: space-around !important;
+  width: 30px !important;
+  height: 24px !important;
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  position: static !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  transform: none !important;
+}
+
+.header .nav .nav__toggle-line {
+  width: 100% !important;
+  height: 3px !important;
+  background: white !important;
+  transition: all 0.3s ease !important;
+}
+
+.header .nav .nav__toggle.is-active .nav__toggle-line:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px) !important;
+}
+
+.header .nav .nav__toggle.is-active .nav__toggle-line:nth-child(2) {
+  opacity: 0 !important;
+}
+
+.header .nav .nav__toggle.is-active .nav__toggle-line:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px) !important;
+}
+
+/* ===== DESKTOP (>1024px) - COMPORTAMIENTO POR DEFECTO ===== */
+.header .nav .nav__menu {
+  display: flex !important;
+  list-style: none !important;
+  gap: 2rem !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  background: transparent !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  z-index: auto !important;
+  left: auto !important;
+  top: auto !important;
+  transition: none !important;
+}
+
+.header .nav .nav__menu a {
+  color: white !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  padding: 0.5rem 1rem !important;
+  transition: font-weight 0.3s ease !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  backdrop-filter: none !important;
+  min-width: auto !important;
+  display: inline-block !important;
+}
+
+.header .nav .nav__menu a:hover {
+  font-weight: 700 !important;
+  background: transparent !important;
+  transform: none !important;
+}
+
+/* ===== TABLET (769px - 1024px) ===== */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .header .nav {
+    padding: 1rem 1.5rem !important;
+  }
+  
+  .header .nav .nav__menu {
+    gap: 1.5rem !important;
+  }
+  
+  .header .nav .nav__menu a {
+    font-size: 0.95rem !important;
+  }
+  
+  .header .nav .nav__brand img {
+    transform: scale(1) !important;
+  }
+}
+
+/* ===== MÓVIL (≤768px) ===== */
+@media (max-width: 768px) {
+  .header .nav {
+    display: grid !important;
+    grid-template-columns: auto 1fr auto !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    padding: 1rem !important;
+    justify-content: unset !important;
+  }
+  
+  .header .nav .nav__brand {
+    grid-column: 1 !important;
+    transform: scale(0.8) !important;
+    justify-self: start !important;
+    position: static !important;
+    left: auto !important;
+    margin: 0 !important;
+  }
+  
+  .header .nav .nav__toggle {
+    display: flex !important;
+    grid-column: 2 !important;
+    justify-self: center !important;
+  }
+  
+  .header .nav .nav__utils {
+    grid-column: 3 !important;
+    justify-self: end !important;
+    position: static !important;
+    right: auto !important;
+  }
+  
+  .header .nav .nav__menu {
+    position: fixed !important;
+    top: 0 !important;
+    left: -100% !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: var(--brand-primary) !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 2rem !important;
+    z-index: 9999 !important;
+    transition: left 0.3s ease !important;
+    margin: 0 !important;
+    padding: 2rem !important;
+  }
+  
+  .header .nav .nav__menu.is-open {
+    left: 0 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+  }
+  
+  .header .nav .nav__menu li {
+    list-style: none !important;
+    width: auto !important;
+    margin: 0.5rem 0 !important;
+  }
+  
+  .header .nav .nav__menu a {
+    color: white !important;
+    font-size: 1.5rem !important;
+    font-weight: 400 !important;
+    padding: 1rem !important;
+    text-align: center !important;
+    display: block !important;
+  }
+  
+  .header .nav .nav__menu a:hover {
+    font-weight: 700 !important;
+  }
+}

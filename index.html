@@ -1,0 +1,1506 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>fica.com Viviendas colaborativas</title>
+  <meta name="description" content="FICA: vivienda colaborativa con foco en comunidad, conciliación y crianza compartida." />
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  
+  <!-- AOS CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  
+  <!-- CSS principal (rutas relativas, modo offline) -->
+  <link rel="stylesheet" href="project-root/src/assets/css/styles.css" />
+  <style>
+    /* 🔥 NAVBAR INLINE - SOLUCIÓN DEFINITIVA */
+    
+    /* RESET COMPLETO */
+    .header .nav * {
+      box-sizing: border-box;
+    }
+    
+    /* DESKTOP - BASE */
+    .header .nav {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      padding: 1rem 0.5rem !important;
+      height: 70px !important;
+      position: relative !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+    }
+    
+    .header .nav__brand {
+      display: flex !important;
+      align-items: center !important;
+      height: 100% !important;
+      flex-shrink: 0 !important;
+      position: static !important;
+      left: auto !important;
+      transform: none !important;
+      margin: 0 !important;
+    }
+    
+    .header .nav__menu {
+      display: flex !important;
+      list-style: none !important;
+      gap: 2rem !important;
+      align-items: center !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      position: static !important;
+      width: auto !important;
+      height: auto !important;
+      background: transparent !important;
+      flex-direction: row !important;
+      z-index: auto !important;
+      left: auto !important;
+      top: auto !important;
+      transition: none !important;
+    }
+    
+    .header .nav__menu a {
+      color: white !important;
+      font-size: 1rem !important;
+      font-weight: 500 !important;
+      text-decoration: none !important;
+      padding: 0.5rem 1rem !important;
+      transition: font-weight 0.3s ease !important;
+      background: transparent !important;
+      display: inline-block !important;
+    }
+    
+    .header .nav__menu a:hover {
+      font-weight: 700 !important;
+    }
+    
+    .header .nav__utils {
+      display: flex !important;
+      align-items: center !important;
+      gap: 1rem !important;
+      height: 100% !important;
+      flex-shrink: 0 !important;
+      position: static !important;
+      right: auto !important;
+    }
+    
+    .header .nav__toggle {
+      display: none !important;
+      flex-direction: column !important;
+      justify-content: space-around !important;
+      width: 30px !important;
+      height: 24px !important;
+      background: transparent !important;
+      border: none !important;
+      cursor: pointer !important;
+      padding: 0 !important;
+      position: static !important;
+      transform: none !important;
+    }
+    
+    .header .nav__toggle-line {
+      width: 100% !important;
+      height: 3px !important;
+      background: white !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    .header .nav__toggle.is-active .nav__toggle-line:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px) !important;
+    }
+    
+    .header .nav__toggle.is-active .nav__toggle-line:nth-child(2) {
+      opacity: 0 !important;
+    }
+    
+    .header .nav__toggle.is-active .nav__toggle-line:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px) !important;
+    }
+    
+    /* TABLET - ESTRUCTURA ESPECÍFICA */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .header .nav {
+        display: grid !important;
+        grid-template-columns: auto 1fr auto !important;
+        align-items: center !important;
+        gap: 1rem !important;
+        padding: 1rem 0.5rem !important;
+        justify-content: unset !important;
+      }
+      
+      .header .nav__brand {
+        grid-column: 1 !important;
+        justify-self: start !important;
+        transform: scale(0.9) !important;
+      }
+      
+      .header .nav__menu {
+        grid-column: 2 !important;
+        justify-self: center !important;
+        gap: 1rem !important;
+      }
+      
+      .header .nav__utils {
+        grid-column: 3 !important;
+        justify-self: end !important;
+        gap: 0.5rem !important;
+      }
+      
+      .header .nav__utils .btn {
+        font-size: 0.85rem !important;
+        padding: 0.4rem 0.8rem !important;
+      }
+      
+      .header .nav__utils .lang__btn {
+        font-size: 0.75rem !important;
+        padding: 0.3rem 0.6rem !important;
+      }
+      
+      .header .nav__menu a {
+        font-size: 0.9rem !important;
+        padding: 0.4rem 0.8rem !important;
+      }
+      
+      .header .nav__toggle {
+        display: none !important;
+      }
+    }
+    
+    /* MÓVIL */
+    @media (max-width: 768px) {
+      .header .nav {
+        display: grid !important;
+        grid-template-columns: auto 1fr auto !important;
+        align-items: center !important;
+        gap: 1rem !important;
+        padding: 1rem 0.5rem !important;
+        justify-content: unset !important;
+      }
+      
+      .header .nav__brand {
+        grid-column: 1 !important;
+        transform: scale(0.8) !important;
+        justify-self: start !important;
+      }
+      
+      .header .nav__toggle {
+        display: flex !important;
+        grid-column: 2 !important;
+        justify-self: center !important;
+      }
+      
+      .header .nav__utils {
+        grid-column: 3 !important;
+        justify-self: end !important;
+      }
+      
+      .header .nav__menu {
+        position: fixed !important;
+        top: 0 !important;
+        left: -100% !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        background: var(--brand-primary) !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 2rem !important;
+        z-index: 9999 !important;
+        transition: left 0.3s ease !important;
+      }
+      
+      .header .nav__menu.is-open {
+        left: 0 !important;
+      }
+      
+      .header .nav__menu li {
+        list-style: none !important;
+      }
+      
+      .header .nav__menu a {
+        color: white !important;
+        font-size: 1.5rem !important;
+        font-weight: 400 !important;
+        padding: 1rem !important;
+        text-align: center !important;
+        display: block !important;
+      }
+      
+      .header .nav__menu a:hover {
+        font-weight: 700 !important;
+      }
+    }
+  </style>
+  <link rel="icon" href="project-root/src/assets/images/fabicon.png" type="image/png" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Source+Code+Pro:wght@300;400;500&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
+  <style>
+    html, body {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+    
+    .container {
+      padding-left: 15px !important;
+      padding-right: 15px !important;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    .boxesContainer .card {
+      min-height: 400px !important;
+    }
+    
+    .boxesContainer .back {
+      padding: 1.5rem !important;
+      display: flex !important;
+      align-items: center !important;
+      text-align: center !important;
+    }
+    
+    @media (max-width: 768px) {
+      .boxesContainer {
+        display: block !important;
+      }
+      
+      .cardBox {
+        width: 100% !important;
+        margin-bottom: 2rem !important;
+      }
+      
+      .boxesContainer .card {
+        min-height: 300px !important;
+        width: 100% !important;
+      }
+      
+      .boxesContainer .back {
+        padding: 1rem !important;
+        font-size: 0.9rem !important;
+        line-height: 1.4 !important;
+      }
+      
+
+      
+      .footer__nav {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+      }
+      
+      .footer__nav a {
+        display: block !important;
+        padding: 0.5rem 0 !important;
+        border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+        width: 100% !important;
+      }
+    }
+  </style>
+</head>
+<body class="no-js">
+  <!-- Skip-link accesibilidad -->
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <!-- ======================================================
+       HEADER / NAV — sticky, accesible, CTA acceso (maqueta)
+       ====================================================== -->
+  <header class="header" role="banner">
+    <div class="container-fluid px-3">
+      <nav class="nav" role="navigation" aria-label="Navegación principal">
+        <!-- Logo a la izquierda -->
+        <a href="#hero" class="nav__brand" aria-label="FICA - Ir al inicio">
+          <img src="project-root/src/assets/svg/logo nav.svg" alt="FICA" width="150" height="38" />
+          <span class="sr-only">FICA - Ir al inicio</span>
+        </a>
+        
+        <!-- Hamburguesa en el centro (solo móviles) -->
+        <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-label="Abrir menú de navegación">
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+        </button>
+        
+        <!-- Menú principal (desktop) -->
+        <ul class="nav__menu" id="navMenu">
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#viviendas">Viviendas</a></li>
+          <li><a href="#testimonios">Testimonios</a></li>
+          <li><a href="#prensa">Prensa</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+        
+        <!-- Utilidades a la derecha: Acceso + Idioma -->
+        <div class="nav__utils">
+          <a href="acceso.html" class="btn btn--ghost nav__access-btn">Acceso</a>
+          <div class="lang nav__lang" data-lang-selector>
+            <button class="lang__btn" id="langToggle" aria-expanded="false" aria-label="Selector de idioma">
+              <span data-lang-text>ES</span>
+            </button>
+            <ul class="lang__menu" id="langMenu" hidden>
+              <li><button type="button" data-lang="es">Español</button></li>
+              <li><button type="button" data-lang="ca">Català</button></li>
+              <li><button type="button" data-lang="eu">Euskera</button></li>
+              <li><button type="button" data-lang="gl">Galego</button></li>
+              <li><button type="button" data-lang="en">English</button></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Backdrop para menú móvil -->
+  <div class="nav__backdrop" data-backdrop hidden></div>
+
+  <main id="main">
+    <!-- =========================
+         HERO — imagen + 2 CTAs
+         ========================= -->
+    <section id="hero" class="hero" aria-labelledby="hero-title">
+      <div class="hero__media" role="img" aria-label="Familias compartiendo espacios en comunidad"></div>
+      <div class="hero__overlay" aria-hidden="true"></div>
+
+      <div class="hero__content">
+        <!-- 1️⃣ Título - desde la izquierda -->
+        <h1 
+          id="hero-title" 
+          class="hero__title"
+          data-aos="fade-left"
+          data-aos-delay="0"
+          data-aos-duration="1000"
+          data-aos-offset="-200"
+          data-aos-anchor-placement="center-bottom">
+          Vivir en comunidad, crecer acompañados.
+        </h1>
+        
+        <!-- 2️⃣ Subtítulo - desde la derecha -->
+        <p 
+          class="hero__subtitle"
+          data-aos="fade-right"
+          data-aos-delay="400"
+          data-aos-duration="1000"
+          data-aos-offset="-200"
+          data-aos-anchor-placement="center-bottom">
+          Viviendas colaborativas pensadas para conciliar, criar y compartir tiempo.
+        </p>
+        
+        <!-- 3️⃣ Separación temporal antes de botones -->
+        <div class="hero__actions">
+          <!-- 4️⃣ Botón 1 - después de pausa -->
+          <a 
+            href="#contacto" 
+            class="btn btn--primary" 
+            aria-label="Ir al formulario de contacto"
+            data-aos="fade-up"
+            data-aos-delay="1200"
+            data-aos-duration="800"
+            data-aos-offset="-200"
+            data-aos-anchor-placement="center-bottom">
+            Sumarme a fica
+          </a>
+          
+          <!-- 5️⃣ Botón 2 - el último -->
+          <a 
+            href="#manifiesto" 
+            class="btn btn--secondary" 
+            aria-label="Ver video manifiesto"
+            data-aos="fade-up"
+            data-aos-delay="1600"
+            data-aos-duration="800"
+            data-aos-offset="-200"
+            data-aos-anchor-placement="center-bottom">
+            Ver Manifiesto
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         KPIs — 4 indicadores
+         ========================= -->
+    <section id="kpis" aria-labelledby="kpis-title">
+      <h2 id="kpis-title" class="sr-only">Indicadores de comunidad</h2>
+      <div class="kpis container">
+        <!-- KPI 1 - Familias: Iconos → Cifras → Texto -->
+        <article class="kpi">
+          <!-- 1️⃣ Icono primero -->
+          <div class="kpi__icon" data-aos="fade-up" data-aos-delay="0" data-aos-duration="800">
+            <img src="project-root/src/assets/svg/family_home.svg" alt="Familias" width="24" height="24" />
+          </div>
+          <!-- 2️⃣ Cifra después -->
+          <div class="kpi__value" data-aos="fade-up" data-aos-delay="400" data-aos-duration="800">120</div>
+          <!-- 3️⃣ Texto último -->
+          <div class="kpi__label" data-aos="fade-up" data-aos-delay="600" data-aos-duration="800">Familias</div>
+        </article>
+        
+        <!-- KPI 2 - Comunidades: Iconos → Cifras → Texto -->
+        <article class="kpi">
+          <!-- 1️⃣ Icono primero -->
+          <div class="kpi__icon" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
+            <img src="project-root/src/assets/svg/home_pin.svg" alt="Comunidades" width="24" height="24" />
+          </div>
+          <!-- 2️⃣ Cifra después -->
+          <div class="kpi__value" data-aos="fade-up" data-aos-delay="600" data-aos-duration="800">12</div>
+          <!-- 3️⃣ Texto último -->
+          <div class="kpi__label" data-aos="fade-up" data-aos-delay="800" data-aos-duration="800">Comunidades</div>
+        </article>
+        
+        <!-- KPI 3 - Viviendas: Iconos → Cifras → Texto -->
+        <article class="kpi">
+          <!-- 1️⃣ Icono primero -->
+          <div class="kpi__icon" data-aos="fade-up" data-aos-delay="400" data-aos-duration="800">
+            <img src="project-root/src/assets/svg/holiday_village.svg" alt="Viviendas" width="24" height="24" />
+          </div>
+          <!-- 2️⃣ Cifra después -->
+          <div class="kpi__value" data-aos="fade-up" data-aos-delay="800" data-aos-duration="800">3</div>
+          <!-- 3️⃣ Texto último -->
+          <div class="kpi__label" data-aos="fade-up" data-aos-delay="1000" data-aos-duration="800">Viviendas</div>
+        </article>
+        
+        <!-- KPI 4 - Propósito: Iconos → Cifras → Texto -->
+        <article class="kpi">
+          <!-- 1️⃣ Icono primero -->
+          <div class="kpi__icon" data-aos="fade-up" data-aos-delay="600" data-aos-duration="800">
+            <img src="project-root/src/assets/svg/handshake.svg" alt="Propósito" width="24" height="24" />
+          </div>
+          <!-- 2️⃣ Cifra después -->
+          <div class="kpi__value" data-aos="fade-up" data-aos-delay="1000" data-aos-duration="800">1</div>
+          <!-- 3️⃣ Texto último -->
+          <div class="kpi__label" data-aos="fade-up" data-aos-delay="1200" data-aos-duration="800">Propósito</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- =========================
+         VIDEO MANIFIESTO — sección de video
+         ========================= -->
+    <section id="manifiesto" aria-labelledby="manifiesto-title">
+      <div class="section">
+        <div class="container">
+          <header class="section__head">
+            <!-- Título - fade-down -->
+            <h2 
+              id="manifiesto-title"
+              data-aos="fade-down"
+              data-aos-delay="0"
+              data-aos-duration="1000"
+              data-aos-anchor-placement="top-center">
+              Nuestro Manifiesto
+            </h2>
+            <!-- Subtítulo - zoom-in -->
+            <p 
+              class="section__intro"
+              data-aos="zoom-in"
+              data-aos-delay="300"
+              data-aos-duration="800"
+              data-aos-anchor-placement="top-center">
+              Descubre nuestra visión de la vida en comunidad
+            </p>
+          </header>
+          
+          <div class="video-section">
+            <div class="video-container">
+              <!-- YouTube iframe oculto inicialmente -->
+              <iframe 
+                id="youtubeVideo"
+                width="100%" 
+                height="100%" 
+                src="" 
+                data-src="https://www.youtube.com/embed/mMFHYghC-nE?rel=0&modestbranding=1"
+                title="¿Y si compartir fuera el verdadero acto de libertad? | Manifiesto FICA – Vivir y compartir" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" 
+                allowfullscreen
+                style="border-radius: 8px; display: none;">
+              </iframe>
+              
+              <!-- Botón play sobre thumbnail -->
+              <button class="video-play" id="playButton" aria-label="Reproducir video manifiesto">
+                <div class="video-thumbnail">
+                  <div class="play-icon">
+                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                      <circle cx="30" cy="30" r="30" fill="rgba(255,255,255,0.9)"/>
+                      <path d="M24 18L42 30L24 42V18Z" fill="#405E69"/>
+                    </svg>
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         NOSOTROS — texto + 3 frases + carrusel (placeholder)
+         ========================= -->
+    <section id="nosotros" aria-labelledby="nosotros-title">
+      <div class="section section--humo">
+        <div class="container">
+          <header class="section__head">
+            <!-- Título - fade-down -->
+            <h2 
+              id="nosotros-title"
+              data-aos="fade-down"
+              data-aos-delay="0"
+              data-aos-duration="1000"
+              data-aos-anchor-placement="top-center">
+              Vivir juntos
+            </h2>
+            <!-- Subtítulo - zoom-in -->
+            <p 
+              class="section__intro"
+              data-aos="zoom-in"
+              data-aos-delay="300"
+              data-aos-duration="800"
+              data-aos-anchor-placement="top-center">
+              En FICA creamos espacios donde la comunidad, el cuidado y el apoyo mutuo son parte del día a día.
+            </p>
+          </header>
+
+          <!-- Imagen y contenido -->
+          <div class="nosotros__content">
+            <!-- Imagen - zoom-in-up -->
+            <div 
+              class="nosotros__image"
+              data-aos="zoom-in-up"
+              data-aos-delay="0"
+              data-aos-duration="1000"
+              data-aos-anchor-placement="top-center">
+              <img src="project-root/src/assets/images/nosotros_comunidad.jpg" alt="Comunidad FICA" loading="lazy" decoding="async" />
+            </div>
+            
+            <div class="nosotros__list">
+              <!-- Bloque 1 - fade-left como el hero -->
+              <div 
+                class="animate-on-image"
+                data-aos="fade-left"
+                data-aos-delay="100"
+                data-aos-duration="800"
+                data-aos-anchor-placement="top-center">
+                <h3>Lo que nos mueve</h3>
+                <p>FICA surge de una pregunta sencilla: ¿por qué criamos, trabajamos y vivimos tan solos? La marca nace como una respuesta a ese cansancio cotidiano de hacerlo todo sin red. Es un proyecto que busca recuperar lo esencial: compartir el tiempo, acompañarse y construir comunidad en la vida diaria.</p>
+              </div>
+              
+              <!-- Bloque 2 - fade-left escalonado -->
+              <div 
+                class="animate-on-image"
+                data-aos="fade-left"
+                data-aos-delay="110"
+                data-aos-duration="800"
+                data-aos-anchor-placement="top-center">
+                <h3>Lo que creemos</h3>
+                <p>Creemos que vivir mejor no significa tener más, sino estar más presentes. Que la verdadera libertad no está en hacerla todo por cuenta propia, sino en poder contar con otros. En FICA, cada espacio está pensado para crear vínculos reales, donde la colaboración y el apoyo mutuo formen parte de lo cotidiano.</p>
+              </div>
+              
+              <!-- Bloque 3 - fade-left final -->
+              <div 
+                class="animate-on-image"
+                data-aos="fade-left"
+                data-aos-delay="120"
+                data-aos-duration="800"
+                data-aos-anchor-placement="top-center">
+                <h3>Lo que hacemos posible</h3>
+                <p>FICA promueve una forma de vida donde trabajo, crianza y descanso pueden convivir. Un entorno donde compartir no es una excepción, sino la base de todo. Porque cuando la comunidad existe, el equilibrio también se vuelve posible.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         VIVIENDAS — 3 cards + CTA secundario
+         ========================= -->
+    <section id="viviendas" aria-labelledby="viviendas-title">
+      <div class="section">
+        <div class="container">
+          <header class="section__head">
+            <!-- Título - fade-down -->
+            <h2 
+              id="viviendas-title"
+              data-aos="fade-down"
+              data-aos-delay="0"
+              data-aos-duration="1000"
+              data-aos-anchor-placement="top-center">
+              Espacios compartidos
+            </h2>
+            <!-- Subtítulo - zoom-in -->
+            <p 
+              class="section__intro"
+              data-aos="zoom-in"
+              data-aos-delay="300"
+              data-aos-duration="800"
+              data-aos-anchor-placement="top-center">
+              Hogares diseñados para convivir en comunidad. Pensados para quienes valoran la compañía y el tiempo.
+            </p>
+          </header>
+
+          <div class="boxesContainer">
+            <div class="cardBox">
+              <div class="card">
+                <div class="front">
+                  <img src="project-root/src/assets/images/cofica.jpg" alt="Co-FICA: convivencia temporal" loading="lazy" decoding="async" />
+                  <div class="card-body">
+                    <h3>Co-FICA</h3>
+                    <p>Vivienda temporal con espíritu comunitario.</p>
+                  </div>
+                </div>
+                <div class="back">
+                  <p>Pensada para quienes atraviesan una etapa de transición o buscan una red real de apoyo. Ofrece estancias flexibles en espacios acogedores, con el acompañamiento y la calidez de una comunidad pequeña y elegida. Un hogar donde lo cotidiano se comparte sin perder la intimidad.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="cardBox">
+              <div class="card">
+                <div class="front">
+                  <img src="project-root/src/assets/images/urbanfica.jpg" alt="Urban-FICA: entorno urbano" loading="lazy" decoding="async" />
+                  <div class="card-body">
+                    <h3> Urban-FICA</h3>
+                    <p>Vivir en el corazón de la ciudad, con alma de barrio.</p>
+                  </div>
+                </div>
+                <div class="back">
+                  <p>Ubicada en zonas urbanas de escala humana, Urban-FICA combina la vida práctica y conectada de la ciudad con la serenidad del hogar compartido. Edificios bajos, bien integrados en su entorno, donde la convivencia fluye entre lo propio y lo común.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="cardBox">
+              <div class="card">
+                <div class="front">
+                  <img src="project-root/src/assets/images/terrafica.jpg" alt="Terra-FICA: vida periférica" loading="lazy" decoding="async" />
+                  <div class="card-body">
+                    <h3> Terra-FICA</h3>
+                    <p>Hogares conectados con la naturaleza y la calma.</p>
+                  </div>
+                </div>
+                <div class="back">
+                  <p>Viviendas situadas en periferias o entornos naturales bien comunicados, ideales para quienes buscan equilibrio entre comunidad y tranquilidad. Un refugio donde criar, trabajar y vivir cerca de la tierra, sin alejarse de la red.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section__actions">
+            <a href="#contacto" class="btn btn--cta" aria-label="Ir al formulario de contacto">Descubrir FICA</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         TESTIMONIOS — carrusel 1×1 (placeholder)
+         ========================= -->
+    <section id="testimonios" aria-labelledby="testimonios-title">
+      <div class="section section--humo">
+        <div class="container">
+          <header class="section__head">
+            <!-- Título - fade-down -->
+            <h2 
+              id="testimonios-title"
+              data-aos="fade-down"
+              data-aos-delay="0"
+              data-aos-duration="1000"
+              data-aos-anchor-placement="top-center">
+              Historias reales
+            </h2>
+            <!-- Subtítulo - zoom-in -->
+            <p 
+              class="section__intro"
+              data-aos="zoom-in"
+              data-aos-delay="300"
+              data-aos-duration="800"
+              data-aos-anchor-placement="top-center">
+              Personas que encontraron en FICA una forma más humana de vivir.
+            </p>
+          </header>
+
+          <div id="carouselTestimonios" class="carousel slide" data-bs-ride="carousel" data-bs-interval="6000" data-bs-wrap="true" data-bs-pause="hover">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="row align-items-center">
+                  <div class="col-md-8">
+                    <blockquote class="testimonial__quote">"Aquí dejé de pasar las noches solo. Ahora mi hijo crece rodeado de gente con la que puede compartir tiempo."</blockquote>
+                    <figcaption class="testimonial__meta">Martín, 45 años · Padre viudo</figcaption>
+                  </div>
+                  <div class="col-md-4 text-center">
+                    <img class="testimonial__avatar" src="project-root/src/assets/images/testimonioviudo.png" alt="Retrato de Martín" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="row align-items-center">
+                  <div class="col-md-8">
+                    <blockquote class="testimonial__quote">"Decidí ser madre sola, pero no vivirlo aislada. En FICA siempre hay alguien que está para apoyarte."</blockquote>
+                    <figcaption class="testimonial__meta">Laura, 33 años · Madre soltera</figcaption>
+                  </div>
+                  <div class="col-md-4 text-center">
+                    <img class="testimonial__avatar" src="project-root/src/assets/images/testimoniojoven.png" alt="Retrato de Laura" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="row align-items-center">
+                  <div class="col-md-8">
+                    <blockquote class="testimonial__quote">"Vine buscando un poco de compañía. Terminé encontrando una comunidad de personas maravillosas."</blockquote>
+                    <figcaption class="testimonial__meta">Rosa, 59 años · Abuela y vecina</figcaption>
+                  </div>
+                  <div class="col-md-4 text-center">
+                    <img class="testimonial__avatar" src="project-root/src/assets/images/testimonioabuela.png" alt="Retrato de Rosa" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselTestimonios" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselTestimonios" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselTestimonios" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         CITA — pausa editorial
+         ========================= -->
+    <section id="cita" aria-labelledby="cita-title">
+      <div class="section">
+        <div class="quote__media" role="img" aria-label="Imagen inspiradora"></div>
+        <div class="quote__overlay" aria-hidden="true"></div>
+        <div class="container">
+          <h2 id="cita-title" class="sr-only">Cita inspiradora</h2>
+          <blockquote class="quote">
+            <p>"Construimos comunidad compartiendo tiempo."</p>
+          </blockquote>
+          <div class="quote__rule" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         PRENSA — 3 cards + CTA secundario
+         ========================= -->
+    <section id="prensa" aria-labelledby="prensa-title">
+      <div class="section section--humo">
+        <div class="container">
+          <header class="section__head">
+            <!-- Título - fade-down -->
+            <h2 
+              id="prensa-title"
+              data-aos="fade-down"
+              data-aos-delay="0"
+              data-aos-duration="1000"
+              data-aos-anchor-placement="top-center">
+              En los medios
+            </h2>
+            <!-- Subtítulo - zoom-in -->
+            <p 
+              class="section__intro"
+              data-aos="zoom-in"
+              data-aos-delay="300"
+              data-aos-duration="800"
+              data-aos-anchor-placement="top-center">
+              Artículos y entrevistas que muestran cómo FICA está cambiando la forma de habitar.
+            </p>
+          </header>
+
+          <div class="row">
+            <div class="col-md-4 mb-4">
+              <div class="card h-100">
+                <img src="project-root/src/assets/images/noticia 1.jpg" class="card-img-top" alt="Nuevas formas de habitar" style="height: 300px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                  <div class="flex-grow-1">
+                    <h5 class="card-title">Nuevas formas de habitar: el auge del coliving y la vivienda compartida en España</h5>
+                    <p class="card-text">ArchDaily · 12 de junio de 2024</p>
+                  </div>
+                  <div class="text-center mt-auto">
+                    <a href="https://www.idealista.com/news/inmobiliario/vivienda/2025/06/26/850136-vivir-en-comunidad-sin-etiquetas-ni-hipotecas-la-revolucion-del-flex-living-segun" class="btn btn-outline-primary" rel="noopener" target="_blank">Leer más →</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <div class="card h-100">
+                <img src="project-root/src/assets/images/noticia 2.jpg" class="card-img-top" alt="El cohousing se consolida" style="height: 300px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                  <div class="flex-grow-1">
+                    <h5 class="card-title">El cohousing se consolida como alternativa para vivir con propósito</h5>
+                    <p class="card-text">El País — Economía · 3 de abril de 2024</p>
+                  </div>
+                  <div class="text-center mt-auto">
+                    <a href="https://es.weforum.org/stories/2020/07/viviendas-cooperativas-una-forma-de-vida-mas-verde-y-sostenible/" class="btn btn-outline-primary" rel="noopener" target="_blank">Leer más →</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <div class="card h-100">
+                <img src="project-root/src/assets/images/noticia 3.jpg" class="card-img-top" alt="Comunidades sostenibles" style="height: 300px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                  <div class="flex-grow-1">
+                    <h5 class="card-title">Comunidades sostenibles: el futuro de la vivienda compartida</h5>
+                    <p class="card-text">Ethic · 28 de enero de 2025</p>
+                  </div>
+                  <div class="text-center mt-auto">
+                    <a href="https://es.weforum.org/stories/2020/07/viviendas-cooperativas-una-forma-de-vida-mas-verde-y-sostenible/" class="btn btn-outline-primary" rel="noopener" target="_blank">Leer más →</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section__actions">
+            <a href="#contacto" class="btn btn--cta" aria-label="Ir al formulario de contacto">Saber más</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         BLOG — cards editoriales
+         ========================= -->
+    <section id="blog" aria-labelledby="blog-title">
+      <div class="section">
+        <div class="container">
+          <header class="section__head">
+            <!-- Título - fade-down -->
+            <h2 
+              id="blog-title"
+              data-aos="fade-down"
+              data-aos-delay="0"
+              data-aos-duration="1000"
+              data-aos-anchor-placement="top-center">
+              Vida compartida
+            </h2>
+            <!-- Subtítulo - zoom-in -->
+            <p 
+              class="section__intro"
+              data-aos="zoom-in"
+              data-aos-delay="300"
+              data-aos-duration="800"
+              data-aos-anchor-placement="top-center">
+              Ideas y experiencias sobre comunidad, crianza y nuevas formas de convivencia.
+            </p>
+          </header>
+
+          <div class="row">
+            <div class="col-md-4 mb-4">
+              <div class="card h-100">
+                <img src="project-root/src/assets/images/comunidad.jpg" class="card-img-top" alt="La importancia de la comunidad" style="height: 300px; object-fit: cover;">
+                <div class="card-body d-flex flex-column text-center">
+                  <div class="flex-grow-1">
+                    <h5 class="card-title">La importancia de la comunidad</h5>
+                    <p class="card-text">Exploramos cómo las conexiones comunitarias impactan en nuestro bienestar emocional y mental.</p>
+                  </div>
+                  <div class="mt-auto">
+                    <a href="https://www.psychologytoday.com/es/blog/la-importancia-de-la-comunidad" class="btn btn-outline-primary" aria-label="Leer artículo completo" target="_blank" rel="noopener">Leer más →</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <div class="card h-100">
+                <img src="project-root/src/assets/images/alloparenting.jpg" class="card-img-top" alt="¿Qué es la crianza compartida?" style="height: 300px; object-fit: cover;">
+                <div class="card-body d-flex flex-column text-center">
+                  <div class="flex-grow-1">
+                    <h5 class="card-title">¿Qué es la crianza compartida?</h5>
+                    <p class="card-text">Descubre cómo la crianza colaborativa puede transformar la experiencia de ser padres.</p>
+                  </div>
+                  <div class="mt-auto">
+                    <a href="https://www.junecare.co/blog/what-is-alloparenting" class="btn btn-outline-primary" aria-label="Leer artículo completo" target="_blank" rel="noopener">Leer más →</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <div class="card h-100">
+                <img src="project-root/src/assets/images/soledadnodeseada.jpg" class="card-img-top" alt="La soledad no deseada" style="height: 300px; object-fit: cover;">
+                <div class="card-body d-flex flex-column text-center">
+                  <div class="flex-grow-1">
+                    <h5 class="card-title">La soledad no deseada</h5>
+                    <p class="card-text">Un análisis profundo sobre el impacto de la soledad en la sociedad moderna y sus soluciones.</p>
+                  </div>
+                  <div class="mt-auto">
+                    <a href="https://www.soledades.es/la-soledad-no-deseada" class="btn btn-outline-primary" aria-label="Leer artículo completo" target="_blank" rel="noopener">Leer más →</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         CONTACTO — Contact Form 11 Adaptado
+         ========================= -->
+    <section id="contacto" class="contact-form-11" aria-labelledby="contacto-title">
+      <div class="section section--humo">
+        <div class="container">
+          <header class="section__head">
+            <!-- Título - fade-down -->
+            <h2 
+              id="contacto-title"
+              data-aos="fade-down"
+              data-aos-delay="0"
+              data-aos-duration="1000"
+              data-aos-anchor-placement="top-center">
+              Hablemos
+            </h2>
+            <!-- Subtítulo - zoom-in -->
+            <p 
+              class="section__intro"
+              data-aos="zoom-in"
+              data-aos-delay="300"
+              data-aos-duration="800"
+              data-aos-anchor-placement="top-center">
+              Si buscás una manera distinta de vivir, estamos para escucharte y acompañarte.
+            </p>
+          </header>
+          
+          <div class="contact-form-11__wrapper">
+            <div class="contact-form-11__info-column">
+              <div class="contact-form-11__details"
+                id="form-details-container">
+                
+                <div class="contact-form-11__detail">
+                  <img src="project-root/src/assets/svg/call.svg" alt="" class="contact-form-11__icon animate-on-form" width="24" height="24" />
+                  <div>
+                    <strong>Teléfono</strong>
+                    <a href="tel:+34600000000">+34 600 000 000</a>
+                  </div>
+                </div>
+                
+                <div class="contact-form-11__detail">
+                  <img src="project-root/src/assets/svg/mail.svg" alt="" class="contact-form-11__icon animate-on-form" width="24" height="24" />
+                  <div>
+                    <strong>Email</strong>
+                    <a href="mailto:hola@fica.org">hola@fica.org</a>
+                  </div>
+                </div>
+                
+                <div class="contact-form-11__detail">
+                  <img src="project-root/src/assets/svg/location.svg" alt="" class="contact-form-11__icon animate-on-form" width="24" height="24" />
+                  <div>
+                    <strong>Dirección</strong>
+                    <span>C/ Ejemplo 123, Madrid</span>
+                  </div>
+                </div>
+                
+                <div class="contact-form-11__detail">
+                  <img src="project-root/src/assets/svg/alarm.svg" alt="" class="contact-form-11__icon animate-on-form" width="24" height="24" />
+                  <div>
+                    <strong>Horario</strong>
+                    <span>L–V 9:00–18:00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-form-11__form-column">
+              <form class="contact-form-11__form" method="post" id="contactForm" name="contactForm" novalidate>
+                <div class="contact-form-11__row">
+                  <div class="contact-form-11__field">
+                    <input type="text" class="contact-form-11__input" name="nombre" id="nombre" placeholder="Nombre" autocomplete="name" aria-label="Nombre" required>
+                    <small class="contact-form-11__error" id="err-nombre" hidden>Por favor, escribe tu nombre.</small>
+                  </div>
+                  <div class="contact-form-11__field">
+                    <input type="email" class="contact-form-11__input" name="email" id="email" placeholder="Email" autocomplete="email" aria-label="Email" required>
+                    <small class="contact-form-11__error" id="err-email" hidden>Introduce un email válido.</small>
+                  </div>
+                </div>
+                
+                <div class="contact-form-11__row">
+                  <div class="contact-form-11__field contact-form-11__field--full">
+                    <input type="text" class="contact-form-11__input" name="asunto" id="asunto" placeholder="Asunto (opcional)" aria-label="Asunto">
+                  </div>
+                </div>
+
+                <div class="contact-form-11__row">
+                  <div class="contact-form-11__field contact-form-11__field--full">
+                    <textarea class="contact-form-11__textarea" name="mensaje" id="mensaje" rows="6" placeholder="Escribe tu mensaje" aria-label="Mensaje" required></textarea>
+                    <small class="contact-form-11__error" id="err-mensaje" hidden>Cuéntanos en qué podemos ayudarte.</small>
+                  </div>
+                </div>
+
+                <div class="contact-form-11__honeypot" aria-hidden="true">
+                  <input type="text" name="empresa" id="empresa" tabindex="-1" autocomplete="off" aria-label="Campo oculto para prevenir spam">
+                </div>
+
+                <div class="contact-form-11__consent">
+                  <label class="contact-form-11__checkbox">
+                    <input type="checkbox" name="priv" id="priv" aria-label="Acepto la Política de Privacidad" required>
+                    <span class="contact-form-11__checkbox-text">Acepto la <a href="/legal/privacidad.html" target="_blank" rel="noopener">Política de Privacidad</a></span>
+                  </label>
+                </div>
+
+                <div class="contact-form-11__actions">
+                  <button type="submit" class="btn btn--cta" aria-label="Enviar formulario para unirse a FICA">Quiero sumarme</button>
+                  <div class="contact-form-11__status" id="form-message-success" style="display: none;">
+                    Gracias por escribirnos 🙌 Te respondemos pronto.
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================
+       FOOTER — fondo teal + idioma + redes + legal
+       ========================= -->
+  <footer id="footer" class="footer" role="contentinfo" aria-labelledby="footer-title">
+    <h2 id="footer-title" class="sr-only">Información del sitio</h2>
+    <div class="footer__inner">
+      <div class="footer__main">
+        <div class="d-flex justify-content-between align-items-start w-100">
+          <div class="footer__brand d-flex justify-content-between align-items-center">
+            <div class="footer__logo-row" style="margin-left: -1rem;">
+              <img src="project-root/src/assets/svg/logo footer.svg" alt="FICA" class="footer__logo" width="100" height="30" />
+              <h4 class="footer__tagline">Vivir y compartir</h4>
+            </div>
+            <a href="#contacto" class="footer__cta-link" aria-label="Ir al formulario de contacto">Únete a la comunidad</a>
+          </div>
+          
+          <button class="btn btn-outline-light d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#footerNav" aria-controls="footerNav" aria-expanded="false" aria-label="Menú footer" style="padding: 0.75rem 1rem; font-size: 1.5rem;">
+            ☰
+          </button>
+        </div>
+
+        <div class="footer__nav-section">
+          
+          <div class="collapse d-md-block" id="footerNav">
+            <div class="d-flex align-items-center" style="gap: 4rem;">
+              <nav class="footer__nav" aria-label="Navegación secundaria" style="margin-left: 4rem;">
+                <a href="#nosotros">Nosotros</a>
+                <a href="#viviendas">Viviendas</a>
+                <a href="#testimonios">Testimonios</a>
+                <a href="#prensa">Prensa</a>
+                <a href="#blog">Blog</a>
+                <a href="#contacto">Contacto</a>
+              </nav>
+              
+              <div class="lang" data-lang-selector>
+                <button class="lang__btn" id="footerLangToggle" aria-expanded="false" aria-label="Selector de idioma">
+                  <span data-lang-text>ES</span>
+                </button>
+                <ul class="lang__menu" id="footerLangMenu" hidden>
+                  <li><button type="button" data-lang="es">Español</button></li>
+                  <li><button type="button" data-lang="ca">Català</button></li>
+                  <li><button type="button" data-lang="eu">Euskera</button></li>
+                  <li><button type="button" data-lang="gl">Galego</button></li>
+                  <li><button type="button" data-lang="en">English</button></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div class="footer__social">
+            <a href="#" target="_blank" rel="noopener" aria-label="Instagram">
+              <img src="project-root/src/assets/svg/simbol instagram.svg" alt="Instagram" width="24" height="24" />
+              <span class="sr-only">Instagram</span>
+            </a>
+            <a href="#" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <img src="project-root/src/assets/svg/simbol linkedin.svg" alt="LinkedIn" width="24" height="24" />
+              <span class="sr-only">LinkedIn</span>
+            </a>
+            <a href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+              <img src="project-root/src/assets/svg/simbol whatsapp.svg" alt="WhatsApp" width="24" height="24" />
+              <span class="sr-only">WhatsApp</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer__separator" style="height: 1px; background-color: white; margin: 1rem 0;"></div>
+      
+      <div class="footer__legal">
+        <a href="#" target="_blank" rel="noopener">Aviso legal</a>
+        <a href="#" target="_blank" rel="noopener">Privacidad</a>
+        <a href="#" target="_blank" rel="noopener">Cookies</a>
+        <span>© FICA 2025</span>
+        <span class="footer__designer">diseñado por <a href="https://www.behance.net/xonabold" target="_blank" rel="noopener"> xona bold</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Botón global "volver arriba" -->
+  <a href="#hero" class="back-to-top" aria-label="Volver al inicio">↑</a>
+
+  <!-- =========================
+       MODAL VIDEO (overlay)
+       ========================= -->
+  <div class="modal" data-modal hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="video-title">
+    <div class="modal__dialog" role="document">
+      <button class="modal__close" data-close-video="" aria-label="Cerrar video">✕</button>
+      <h2 id="video-title" class="sr-only">Video manifiesto FICA</h2>
+      <iframe 
+        class="modal__video" 
+        src="" 
+        data-src="https://www.youtube.com/embed/mMFHYghC-nE?autoplay=1&rel=0&modestbranding=1" 
+        title="¿Y si compartir fuera el verdadero acto de libertad? | Manifiesto FICA – Vivir y compartir" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" 
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  
+  <!-- AOS JS -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    // Configuración AOS optimizada - salida más temprana
+    AOS.init({
+      offset: 50,          
+      duration: 1000,
+      easing: 'ease-out-cubic',
+      once: false,
+      mirror: true,
+      disable: false,
+      startEvent: 'DOMContentLoaded',
+      anchorPlacement: 'top-bottom',
+      // Configuración para salida más temprana
+      mirrorOffset: 150,   // Salida 150px antes de salir del viewport
+      animatedClassName: 'aos-animate',
+      initClassName: 'aos-init'
+    });
+
+    // 🎬 Sistema AOS + Animaciones específicas sección Nosotros
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('🎬 AOS inicializado');
+      
+      // Refresh manual de AOS en cada scroll
+      let scrollTimeout;
+      window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          AOS.refresh();
+        }, 50);
+      });
+      
+      // 🎯 Sistema sincronizado: Imagen controla bloques de texto (AOS + Animate.css)
+      const nosotrosImage = document.querySelector('.nosotros__image');
+      const animateBlocks = document.querySelectorAll('.animate-on-image');
+      
+      if (nosotrosImage && animateBlocks.length > 0) {
+        // Oyente 'aos:in' - Imagen entra → Textos entran escalonados (tiempos reducidos)
+        nosotrosImage.addEventListener('aos:in', () => {
+          // Sincronizar con la imagen pero con menor espera
+          // Ajusta este valor si la animación de la imagen cambia
+          const waitForImageMs = 700; // antes 1200 -> reducido para empezar antes
+          console.log('� Esperando imagen (reducido) ...');
+
+          setTimeout(() => {
+            console.log('🎯 ACTIVANDO fadeInLeft escalonado (tiempos reducidos)');
+
+            // Delays escalonados explícitos (en ms) para cada bloque
+            // Queremos que el tercer bloque entre antes relativo al original:
+            // ejemplo: [0ms, 140ms, 260ms] en lugar de [0, 400, 800]
+            const staggerDelays = [0, 140, 260];
+
+            animateBlocks.forEach((block, index) => {
+              // limpiar posibles clases de salida
+              block.classList.remove('animate__fadeOutRight', 'animate__backOutRight', 'animate__backInRight');
+              // aplicar la animación con el delay concreto
+              setTimeout(() => {
+                block.classList.add('animate__animated', 'animate__fadeInLeft');
+                // asegurar que la clase de salida no interfiera
+                block.classList.remove('animate__fadeOutLeft', 'animate__fadeOutRight');
+                console.log(`✨ Bloque ${index + 1} -> fadeInLeft (delay: ${staggerDelays[index] || 0}ms)`);
+              }, staggerDelays[index] || 0);
+            });
+          }, waitForImageMs);
+        });
+        
+        // Oyente 'aos:out' - Imagen sale → Textos salen simultáneos hacia derecha  
+        nosotrosImage.addEventListener('aos:out', () => {
+          console.log('🎬 Imagen sale - Ocultando bloques simultáneos fadeOutRight');
+          
+          animateBlocks.forEach((block) => {
+            // Eliminar clases de entrada
+            block.classList.remove('animate__fadeInLeft');
+            
+            // Aplicar fadeOutRight SIN retardo (todos juntos)
+            block.classList.add('animate__animated', 'animate__fadeOutRight');
+          });
+        });
+        
+        console.log(`🎬 Sistema sincronizado inicializado: ${animateBlocks.length} bloques controlados por imagen`);
+      }
+      
+      // Refresh inicial después de un momento
+      setTimeout(() => {
+        AOS.refresh();
+        console.log('🎬 AOS + Nosotros observer inicializados');
+      }, 500);
+    });
+  </script>
+  
+  <!-- JS base -->
+  <script>
+    // 🍔 MENÚ HAMBURGUESA + 🌐 SELECTOR DE IDIOMA
+    console.log('🚀 JavaScript inline cargado');
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('📄 DOM Ready - Configurando funcionalidades...');
+      
+      // =======================================================
+      // 🍔 MENÚ HAMBURGUESA
+      // =======================================================
+      const navToggle = document.getElementById('navToggle');
+      const navMenu = document.getElementById('navMenu');
+      
+      if (navToggle && navMenu) {
+        console.log('✅ Menú hamburguesa - Elementos encontrados');
+        
+        navToggle.onclick = function() {
+          console.log('🖱️ CLICK EN HAMBURGUESA');
+          
+          if (navMenu.classList.contains('is-open')) {
+            navMenu.classList.remove('is-open');
+            navToggle.classList.remove('is-active');
+            document.body.style.overflow = '';
+            console.log('🔴 MENÚ CERRADO');
+          } else {
+            navMenu.classList.add('is-open');
+            navToggle.classList.add('is-active');
+            document.body.style.overflow = 'hidden';
+            console.log('🟢 MENÚ ABIERTO');
+          }
+        };
+        
+        // Cerrar menú al hacer click en enlaces
+        navMenu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            navMenu.classList.remove('is-open');
+            navToggle.classList.remove('is-active');
+            document.body.style.overflow = '';
+          });
+        });
+        
+        console.log('✅ Menú hamburguesa configurado');
+      }
+      
+      // =======================================================
+      // 🌐 SELECTOR DE IDIOMA (HEADER)
+      // =======================================================
+      const langToggle = document.getElementById('langToggle');
+      const langMenu = document.getElementById('langMenu');
+      
+      if (langToggle && langMenu) {
+        console.log('✅ Selector idioma - Elementos encontrados');
+        
+        langToggle.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('🌐 CLICK EN SELECTOR IDIOMA');
+          
+          const isExpanded = langToggle.getAttribute('aria-expanded') === 'true';
+          
+          if (isExpanded) {
+            langMenu.hidden = true;
+            langToggle.setAttribute('aria-expanded', 'false');
+            console.log('🔴 IDIOMA CERRADO');
+          } else {
+            langMenu.hidden = false;
+            langToggle.setAttribute('aria-expanded', 'true');
+            console.log('� IDIOMA ABIERTO');
+          }
+        });
+        
+        // Seleccionar idioma
+        langMenu.querySelectorAll('[data-lang]').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const lang = this.getAttribute('data-lang');
+            const langText = this.textContent.substring(0, 2).toUpperCase();
+            
+            document.querySelector('#langToggle [data-lang-text]').textContent = langText;
+            langMenu.hidden = true;
+            langToggle.setAttribute('aria-expanded', 'false');
+            
+            console.log('🌐 Idioma seleccionado:', lang);
+          });
+        });
+        
+        // Cerrar al hacer click fuera
+        document.addEventListener('click', function(e) {
+          if (!langToggle.contains(e.target)) {
+            langMenu.hidden = true;
+            langToggle.setAttribute('aria-expanded', 'false');
+          }
+        });
+        
+        console.log('✅ Selector de idioma configurado');
+      }
+      
+      // =======================================================
+      // 🌐 SELECTOR DE IDIOMA (FOOTER)
+      // =======================================================
+      const footerLangToggle = document.getElementById('footerLangToggle');
+      const footerLangMenu = document.getElementById('footerLangMenu');
+      
+      if (footerLangToggle && footerLangMenu) {
+        footerLangToggle.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const isExpanded = footerLangToggle.getAttribute('aria-expanded') === 'true';
+          
+          if (isExpanded) {
+            footerLangMenu.hidden = true;
+            footerLangToggle.setAttribute('aria-expanded', 'false');
+          } else {
+            footerLangMenu.hidden = false;
+            footerLangToggle.setAttribute('aria-expanded', 'true');
+          }
+        });
+        
+        footerLangMenu.querySelectorAll('[data-lang]').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const lang = this.getAttribute('data-lang');
+            const langText = this.textContent.substring(0, 2).toUpperCase();
+            
+            document.querySelector('#footerLangToggle [data-lang-text]').textContent = langText;
+            footerLangMenu.hidden = true;
+            footerLangToggle.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+      
+      console.log('✅ Todas las funcionalidades configuradas');
+    });
+  </script>
+  <!-- Las animaciones nosotros ahora usan AOS nativo como el hero -->
+  
+  <!-- JS VIDEO Y SELECTOR IDIOMA -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      // ============================================
+      // 📹 FUNCIONALIDAD VIDEO MODAL Y INLINE
+      // ============================================
+      const modal = document.querySelector('[data-modal]');
+      const modalVideo = document.querySelector('.modal__video');
+      const closeBtn = document.querySelector('[data-close-video]');
+      
+      // Botón "Ver Manifiesto" del hero - abre modal
+      const heroVideoBtn = document.querySelector('[data-open-video-fullscreen]');
+      
+      // Botón play del container manifiesto - reproduce inline
+      const playButton = document.getElementById('playButton');
+      const inlineIframe = document.getElementById('youtubeVideo');
+      
+      // Función para abrir modal de video YouTube
+      function openVideoModal() {
+        if (modal && modalVideo) {
+          modal.hidden = false;
+          modal.setAttribute('aria-hidden', 'false');
+          
+          // Cargar el src del iframe para que empiece a reproducir
+          const dataSrc = modalVideo.getAttribute('data-src');
+          if (dataSrc) {
+            modalVideo.src = dataSrc;
+          }
+          
+          document.body.style.overflow = 'hidden'; // Prevenir scroll
+        }
+      }
+      
+      // Función para cerrar modal de video
+      function closeVideoModal() {
+        if (modal && modalVideo) {
+          modal.hidden = true;
+          modal.setAttribute('aria-hidden', 'true');
+          
+          // Detener video removiendo el src
+          modalVideo.src = '';
+          
+          document.body.style.overflow = ''; // Restaurar scroll
+        }
+      }
+      
+      // Función para reproducir video inline en el container
+      function playInlineVideo() {
+        if (inlineIframe && playButton) {
+          // Mostrar el iframe y ocultar el botón
+          inlineIframe.style.display = 'block';
+          playButton.style.display = 'none';
+          
+          // Cargar el video con autoplay
+          const videoSrc = inlineIframe.getAttribute('data-src') || inlineIframe.src;
+          if (videoSrc && !videoSrc.includes('autoplay=1')) {
+            const newSrc = videoSrc.includes('?') 
+              ? videoSrc + '&autoplay=1' 
+              : videoSrc + '?autoplay=1';
+            inlineIframe.src = newSrc;
+          }
+        }
+      }
+      
+      // Event listeners
+      if (heroVideoBtn) {
+        heroVideoBtn.addEventListener('click', openVideoModal);
+      }
+      
+      if (playButton) {
+        playButton.addEventListener('click', playInlineVideo);
+      }
+      
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeVideoModal);
+      }
+      
+      // Cerrar modal con ESC o click fuera del video
+      if (modal) {
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            closeVideoModal();
+          }
+        });
+        
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && !modal.hidden) {
+            closeVideoModal();
+          }
+        });
+      }
+      
+      // ============================================
+      // 🌐 SELECTOR DE IDIOMA - ELIMINADO (ya está en main.js)
+      // ============================================
+    });
+  </script>
+
+  <!-- AOS JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    // Inicializar AOS
+    AOS.init({
+      duration: 800, // Duración de las animaciones en milisegundos
+      easing: 'ease-in-out', // Tipo de easing
+      once: true, // Las animaciones solo ocurren una vez
+      offset: 100, // Offset desde el viewport para activar la animación
+      delay: 0 // Delay global
+    });
+  </script>
+</body>
+</html>

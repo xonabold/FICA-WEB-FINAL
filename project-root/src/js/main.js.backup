@@ -1,0 +1,1492 @@
+// =======================================================
+// MAIN.JS — FICA LANDING
+// =======================================================
+
+// Marca inicial (quita la clase no-js para estilos progresivos)
+document.body.classList.remove("no-js");
+
+// ===== VARIABLES GLOBALES =====
+const header = document.querySelector(".header");
+const backToTop = document.querySelector(".back-to-top");
+const navToggle = document.querySelector(".nav__toggle");
+const navMenu = document.querySelector("#navMenu");
+const navBackdrop = document.querySelector("[data-backdrop]");
+const modal = document.querySelector("[data-modal]");
+const videoEl = modal?.querySelector("video");
+const openVideoBtn = document.querySelector("[data-open-video]");
+const openVideoFullscreenBtn = document.querySelector("[data-open-video-fullscreen]");
+const closeVideoBtn = document.querySelector("[data-close-video]");
+// Variables de idioma movidas a la función de inicialización
+let lastFocused = null;
+
+// =======================================================
+// 1️⃣ NAV STICKY + SCROLL SHADOW + BACK TO TOP
+// =======================================================
+function handleScroll() {
+  const scrolled = window.scrollY > 8;
+  if (header) {
+    header.classList.toggle("header--scrolled", scrolled);
+  }
+  if (backToTop) {
+    backToTop.hidden = window.scrollY < 300;
+  }
+}
+window.addEventListener("scroll", handleScroll, { passive: true });
+handleScroll();
+
+// =======================================================
+// 2️⃣ MENÚ MÓVIL ACCESIBLE MEJORADO
+// =======================================================
+function closeMenu() {
+  if (!navMenu || !navToggle) return;
+  
+  navMenu.classList.remove("is-open");
+  if (navBackdrop) navBackdrop.hidden = true;
+  navToggle.setAttribute("aria-expanded", "false");
+  document.body.classList.remove("lock-scroll");
+  
+  console.log("📱 Menú cerrado");
+}
+
+function openMenu() {
+  if (!navMenu || !navToggle) return;
+  
+  navMenu.classList.add("is-open");
+  if (navBackdrop) navBackdrop.hidden = false;
+  navToggle.setAttribute("aria-expanded", "true");
+  document.body.classList.add("lock-scroll");
+  
+  // Focus en el primer enlace después de la animación
+  setTimeout(() => {
+    const firstLink = navMenu.querySelector("a");
+    if (firstLink) firstLink.focus();
+  }, 100);
+  
+  console.log("📱 Menú abierto");
+}
+
+function toggleMenu() {
+  if (!navToggle) return;
+  
+  const expanded = navToggle.getAttribute("aria-expanded") === "true";
+  expanded ? closeMenu() : openMenu();
+}
+
+// Event listeners para el menú
+if (navToggle) {
+  navToggle.addEventListener("click", toggleMenu);
+  console.log("📱 Toggle del menú inicializado");
+} else {
+  console.error("❌ No se encontró el botón toggle del menú");
+}
+
+if (navMenu) {
+  console.log("✅ Menú de navegación encontrado");
+} else {
+  console.error("❌ No se encontró el menú de navegación");
+}
+
+if (navBackdrop) {
+  console.log("✅ Backdrop encontrado");
+} else {
+  console.error("❌ No se encontró el backdrop");
+}
+
+if (navBackdrop) {
+  navBackdrop.addEventListener("click", closeMenu);
+}
+
+if (navMenu) {
+  navMenu.addEventListener("click", (e) => {
+    if (e.target.tagName === "A") {
+      closeMenu();
+              console.log(`� Bloque ${index + 1} -> backOutRight (delay: ${index * 200}ms)`);
+      }, index * 200); // Escalonado de salida: 0ms, 200ms, 400ms
+    }
+  });
+}
+
+// Cerrar menú con Escape y manejar resize
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    if (navMenu && navMenu.classList.contains("is-open")) closeMenu();
+    if (modal && !modal.hidden) closeModal();
+    
+    // Cerrar menús de idioma
+    document.querySelectorAll('.lang__btn[aria-expanded="true"]').forEach(btn => {
+      btn.setAttribute('aria-expanded', 'false');
+      const menu = btn.parentElement.querySelector('.lang__menu');
+      if (menu) menu.hidden = true;
+    });
+  }
+});
+
+// Cerrar menú móvil al cambiar a desktop
+window.addEventListener("resize", () => {
+  if (window.innerWidth >= 992 && navMenu && navMenu.classList.contains("is-open")) {
+    closeMenu();
+    console.log("📱 Menú cerrado por cambio de tamaño de ventana");
+  }
+});
+
+// Función de debug para el menú (disponible en consola)
+window.debugMenu = function() {
+  console.log("=== DEBUG MENÚ HAMBURGUESA ===");
+  console.log("Toggle button:", navToggle);
+  console.log("Menu element:", navMenu);
+  console.log("Backdrop element:", navBackdrop);
+  console.log("Menu is open:", navMenu?.classList.contains("is-open"));
+  console.log("Toggle aria-expanded:", navToggle?.getAttribute("aria-expanded"));
+  console.log("Body has lock-scroll:", document.body.classList.contains("lock-scroll"));
+};
+
+// =======================================================
+// 3️⃣ VIDEO MANIFIESTO - REPRODUCCIÓN INLINE
+// =======================================================
+function openModal() {
+  lastFocused = document.activeElement;
+  modal.hidden = false;
+  modal.setAttribute("aria-hidden", "false");
+  if (videoEl) {
+    videoEl.currentTime = 0;
+    videoEl.play().catch(() => {});
+    videoEl.focus();
+  }
+  document.body.classList.add("lock-scroll");
+}
+
+function closeModal() {
+  modal.hidden = true;
+  modal.setAttribute("aria-hidden", "true");
+  if (videoEl) videoEl.pause();
+  document.body.classList.remove("lock-scroll");
+  lastFocused && lastFocused.focus();
+}
+
+// Función para reproducir video inline en el container
+function playVideoInline() {
+  const youtubeVideo = document.getElementById('youtubeVideo');
+  const playButton = document.getElementById('playButton');
+  
+  if (youtubeVideo && playButton) {
+    // Ocultar botón play y mostrar iframe de YouTube
+    playButton.style.display = 'none';
+    
+    // Cargar el video de YouTube con autoplay
+    youtubeVideo.src = 'https://www.youtube.com/embed/m4U5MPSoL4E?autoplay=1&rel=0';
+    youtubeVideo.style.display = 'block';
+    
+    console.log('🎥 Video de YouTube cargado y reproduciendo en container de 1170px');
+  }
+}
+
+function openVideoFullscreen() {
+  const fullscreenVideo = document.createElement('video');
+  fullscreenVideo.src = 'project-root/src/assets/videos/FICA_video_final.mp4';
+  fullscreenVideo.controls = true;
+  fullscreenVideo.autoplay = true;
+  fullscreenVideo.style.width = '100%';
+  fullscreenVideo.style.height = '100%';
+  fullscreenVideo.style.objectFit = 'contain';
+  
+  const fullscreenContainer = document.createElement('div');
+  fullscreenContainer.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
+  
+  fullscreenContainer.appendChild(fullscreenVideo);
+  document.body.appendChild(fullscreenContainer);
+  
+  const closeFullscreen = () => {
+    document.body.removeChild(fullscreenContainer);
+    document.removeEventListener('keydown', handleEscape);
+  };
+  
+  const handleEscape = (e) => {
+    if (e.key === 'Escape') closeFullscreen();
+  };
+  
+  fullscreenContainer.addEventListener('click', (e) => {
+    if (e.target === fullscreenContainer) closeFullscreen();
+  });
+  
+  fullscreenVideo.addEventListener('ended', closeFullscreen);
+  document.addEventListener('keydown', handleEscape);
+}
+// Event listeners para video
+openVideoBtn?.addEventListener("click", openModal);
+
+// Inicializar control de video cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+  // Botón play del video inline
+  const playBtn = document.getElementById('playButton');
+  if (playBtn) {
+    playBtn.addEventListener('click', playVideoInline);
+    console.log('✅ Botón play video inline inicializado');
+  }
+  
+  // Mantener funcionalidad de pantalla completa para botones existentes
+  const fullscreenBtns = document.querySelectorAll('[data-open-video-fullscreen]');
+  fullscreenBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const video = document.createElement('video');
+      video.src = 'project-root/src/assets/videos/FICA_video_final.mp4';
+      video.controls = true;
+      video.autoplay = true;
+      video.style.cssText = 'width:100%;height:100%;object-fit:contain';
+      
+      const container = document.createElement('div');
+      container.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:black;z-index:9999;display:flex;align-items:center;justify-content:center';
+      
+      container.appendChild(video);
+      document.body.appendChild(container);
+      
+      const close = () => {
+        document.body.removeChild(container);
+        document.removeEventListener('keydown', handleEscape);
+      };
+      
+      const handleEscape = (e) => {
+        if (e.key === 'Escape') close();
+      };
+      
+      container.onclick = (e) => e.target === container && close();
+      document.addEventListener('keydown', handleEscape);
+      video.onended = close;
+      
+      console.log('🎥 Abriendo video en pantalla completa');
+    });
+  });
+});
+
+closeVideoBtn?.addEventListener("click", closeModal);
+modal?.addEventListener("click", (e) => {
+  if (e.target === modal) closeModal();
+});
+
+// =======================================================
+// 4️⃣ BOTÓN "VOLVER ARRIBA"
+// =======================================================
+backToTop?.addEventListener("click", (e) => {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+// =======================================================
+// 5️⃣ SELECTOR DE IDIOMA - MÚLTIPLES CON OCULTACIÓN
+// =======================================================
+const languages = {
+  es: 'Español',
+  ca: 'Català',
+  eu: 'Euskera', 
+  gl: 'Galego',
+  en: 'English'
+};
+
+function updateLanguageMenus(selectedLang) {
+  document.querySelectorAll('[data-lang-selector]').forEach(selector => {
+    const btn = selector.querySelector('.lang__btn');
+    const menu = selector.querySelector('.lang__menu');
+    const langText = btn.querySelector('[data-lang-text]');
+    
+    // Actualizar texto del botón
+    if (langText) {
+      langText.textContent = selectedLang.toUpperCase();
+    }
+    
+    // Actualizar atributo data-lang-current
+    btn.setAttribute('data-lang-current', selectedLang);
+    
+    // Mostrar/ocultar opciones del menú
+    menu.querySelectorAll('li').forEach(li => {
+      const button = li.querySelector('button');
+      const langCode = button.getAttribute('data-lang');
+      li.hidden = langCode === selectedLang;
+    });
+  });
+}
+
+function initLanguageSelector(langBtn, langMenu) {
+  if (!langBtn || !langMenu) {
+    console.warn("❌ Selector de idioma no encontrado:", { btn: langBtn, menu: langMenu });
+    return;
+  }
+  
+  console.log("✅ Inicializando selector:", langBtn.id, langMenu.id);
+  
+  langBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("🖱️ Click en botón de idioma:", langBtn.id);
+    
+    const expanded = langBtn.getAttribute("aria-expanded") === "true";
+    langBtn.setAttribute("aria-expanded", String(!expanded));
+    langMenu.hidden = expanded;
+    
+    console.log("📋 Estado del menú:", { expanded: !expanded, hidden: langMenu.hidden });
+  });
+
+  langMenu.querySelectorAll("button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const selectedLang = btn.getAttribute('data-lang');
+      updateLanguageMenus(selectedLang);
+      
+      langBtn.setAttribute("aria-expanded", "false");
+      langMenu.hidden = true;
+    });
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!langBtn.contains(e.target) && !langMenu.contains(e.target)) {
+      langBtn.setAttribute("aria-expanded", "false");
+      langMenu.hidden = true;
+    }
+  });
+}
+
+// Inicializar todos los selectores de idioma
+document.querySelectorAll("[data-lang-selector]").forEach(langContainer => {
+  const btn = langContainer.querySelector(".lang__btn");
+  const menu = langContainer.querySelector(".lang__menu");
+  console.log("🌐 Inicializando selector de idioma:", btn?.id, menu?.id);
+  initLanguageSelector(btn, menu);
+});
+
+// Inicializar estado por defecto (español seleccionado)
+updateLanguageMenus('es');
+
+// =======================================================
+// 6️⃣ CONTACT FORM 11 — VALIDACIÓN Y SUBMIT
+// =======================================================
+function initContactForm11() {
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+  
+  const nombre = form.querySelector('#nombre');
+  const email = form.querySelector('#email');
+  const mensaje = form.querySelector('#mensaje');
+  const priv = form.querySelector('#priv');
+  const honeypot = form.querySelector('#empresa');
+  const status = document.getElementById('form-message-success');
+  
+  // Validación en tiempo real
+  function validateField(field, errorId, validator) {
+    const errorEl = document.getElementById(errorId);
+    const isValid = validator(field.value);
+    
+    if (errorEl) {
+      errorEl.hidden = isValid;
+      field.setAttribute('aria-invalid', !isValid);
+    }
+    
+    return isValid;
+  }
+  
+  // Validadores
+  const validators = {
+    nombre: (value) => value.trim().length > 0,
+    email: (value) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value),
+    mensaje: (value) => value.trim().length > 0
+  };
+  
+  // Event listeners para validación en tiempo real
+  nombre.addEventListener('blur', () => validateField(nombre, 'err-nombre', validators.nombre));
+  email.addEventListener('blur', () => validateField(email, 'err-email', validators.email));
+  mensaje.addEventListener('blur', () => validateField(mensaje, 'err-mensaje', validators.mensaje));
+  
+  // Submit del formulario
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // Verificar honeypot (protección anti-spam)
+    if (honeypot && honeypot.value.trim() !== '') {
+      return; // Bot detectado, abortar silenciosamente
+    }
+    
+    // Validar todos los campos
+    const isNombreValid = validateField(nombre, 'err-nombre', validators.nombre);
+    const isEmailValid = validateField(email, 'err-email', validators.email);
+    const isMensajeValid = validateField(mensaje, 'err-mensaje', validators.mensaje);
+    const isPrivValid = priv.checked;
+    
+    if (!isPrivValid) {
+      priv.focus();
+      return;
+    }
+    
+    // Si todo es válido, simular envío
+    if (isNombreValid && isEmailValid && isMensajeValid && isPrivValid) {
+      // Mostrar mensaje de éxito
+      status.style.display = 'block';
+      
+      // Reset del formulario
+      form.reset();
+      
+      // Ocultar errores
+      document.querySelectorAll('.contact-form-11__error').forEach(error => {
+        error.hidden = true;
+      });
+      
+      // Ocultar mensaje después de 4 segundos
+      setTimeout(() => {
+        status.style.display = 'none';
+      }, 4000);
+      
+      // Scroll suave al inicio del formulario
+      form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+}
+
+// Inicializar Contact Form 11
+initContactForm11();
+
+// =======================================================
+// 7️⃣ CONTADOR ANIMADO PARA KPIs
+// =======================================================
+function animateCounter(element) {
+  const text = element.textContent;
+  const hasPlus = text.includes('+');
+  const target = parseInt(text.replace(/[^0-9]/g, ''), 10);
+  
+  if (isNaN(target)) return;
+  
+  let current = 0;
+  const increment = target / 60; // 60 frames para 1 segundo
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= target) {
+      current = target;
+      clearInterval(timer);
+    }
+    element.textContent = Math.floor(current) + (hasPlus ? '+' : '');
+  }, 16); // ~60fps
+}
+
+// =======================================================
+// 8️⃣ ANIMACIONES DE ENTRADA SUAVES (scroll reveal básico)
+// =======================================================
+const revealEls = document.querySelectorAll(
+  ".section, .card, .testimonial, .kpi"
+);
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in-view");
+        
+        // Si es un KPI, animar el contador
+        const kpiValue = entry.target.querySelector('.kpi__value');
+        if (kpiValue) {
+          setTimeout(() => animateCounter(kpiValue), 300);
+        }
+        
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.1 }
+);
+revealEls.forEach((el) => observer.observe(el));
+
+// =======================================================
+// 9️⃣ CARRUSELES AUTOMÁTICOS
+// =======================================================
+function initCarousel(carousel) {
+  if (!carousel) return;
+  
+  const track = carousel.querySelector('[data-carousel-track]');
+  const dots = carousel.querySelectorAll('[data-slide]');
+  
+  // Verificar que existan elementos necesarios
+  if (!track || dots.length === 0) {
+    console.warn('Carrusel: elementos requeridos no encontrados', carousel);
+    return;
+  }
+  
+  let currentSlide = 0;
+  let autoplayInterval;
+  
+  function goToSlide(index) {
+    if (index < 0 || index >= dots.length) return;
+    
+    currentSlide = index;
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentSlide);
+    });
+  }
+  
+  function nextSlide() {
+    if (dots.length === 0) return;
+    currentSlide = (currentSlide + 1) % dots.length;
+    goToSlide(currentSlide);
+  }
+  
+  function startAutoplay() {
+    stopAutoplay(); // Limpiar cualquier intervalo previo
+    autoplayInterval = setInterval(nextSlide, 5000); // 5 segundos como solicitado
+  }
+  
+  function stopAutoplay() {
+    if (autoplayInterval) {
+      clearInterval(autoplayInterval);
+      autoplayInterval = null;
+    }
+  }
+  
+  // Event listeners para los dots
+  dots.forEach((dot, index) => {
+    if (dot) {
+      dot.addEventListener('click', (e) => {
+        e.preventDefault();
+        stopAutoplay();
+        goToSlide(index);
+        // Reanudar autoplay después de 3 segundos de inactividad
+        setTimeout(startAutoplay, 3000);
+      });
+    }
+  });
+  
+  // Pausar en hover
+  carousel.addEventListener('mouseenter', stopAutoplay);
+  carousel.addEventListener('mouseleave', startAutoplay);
+  
+  // Pausar en focus (accesibilidad)
+  carousel.addEventListener('focusin', stopAutoplay);
+  carousel.addEventListener('focusout', () => {
+    setTimeout(startAutoplay, 1000);
+  });
+  
+  // Inicializar primer slide como activo
+  goToSlide(0);
+  
+  // Iniciar autoplay después de un breve delay
+  setTimeout(startAutoplay, 100);
+}
+
+
+
+// =======================================================
+// 🎠 INICIALIZACIÓN DE CARRUSELES
+// =======================================================
+function initAllCarousels() {
+  // Inicializar carruseles personalizados (si existen)
+  const customCarousels = document.querySelectorAll('[data-carousel]');
+  if (customCarousels.length > 0) {
+    console.log(`Inicializando ${customCarousels.length} carruseles personalizados`);
+    customCarousels.forEach((carousel, index) => {
+      console.log(`Inicializando carrusel ${index + 1}:`, carousel);
+      initCarousel(carousel);
+    });
+  }
+
+  // Inicializar Bootstrap carousel de testimonios
+  const testimonialCarousel = document.getElementById('carouselTestimonios');
+  if (testimonialCarousel) {
+    console.log('Carrusel de testimonios encontrado');
+    
+    if (typeof bootstrap !== 'undefined') {
+      console.log('Inicializando carrusel Bootstrap de testimonios con intervalo de 5 segundos');
+      
+      // Asegurarse de que no haya instancia previa
+      const existingCarousel = bootstrap.Carousel.getInstance(testimonialCarousel);
+      if (existingCarousel) {
+        existingCarousel.dispose();
+      }
+      
+      // Crear nueva instancia con inicio automático inmediato
+      const carouselInstance = new bootstrap.Carousel(testimonialCarousel, {
+        interval: 3000, // 3 segundos para que sea más dinámico
+        ride: 'carousel',
+        wrap: true,
+        touch: true,
+        pause: 'hover'
+      });
+    } else {
+      console.warn('Bootstrap no está disponible - el carrusel no funcionará automáticamente');
+    }
+  } else {
+    console.warn('Carrusel de testimonios no encontrado en el DOM');
+  }
+}
+
+// Inicializar cuando el DOM esté listo
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAllCarousels);
+} else {
+  // El DOM ya está cargado
+  setTimeout(initAllCarousels, 100); // Pequeño delay para asegurar que Bootstrap esté listo
+}
+
+// =======================================================
+// 🐛 FUNCIONES DE DEBUGGING Y VERIFICACIÓN
+// =======================================================
+// Función para verificar el estado del carrusel (puedes ejecutar en consola)
+window.checkCarousel = function() {
+  const carousel = document.getElementById('carouselTestimonios');
+  if (!carousel) {
+    console.error('❌ Carrusel no encontrado');
+    return;
+  }
+  
+  console.log('=== ESTADO DEL CARRUSEL ===');
+  console.log('✅ Elemento encontrado:', carousel);
+  console.log('📊 Intervalo configurado:', carousel.getAttribute('data-bs-interval'));
+  
+  if (typeof bootstrap !== 'undefined') {
+    const instance = bootstrap.Carousel.getInstance(carousel);
+    if (instance) {
+      console.log('✅ Instancia Bootstrap activa:', instance);
+      console.log('⏱️ Intervalo actual:', instance._config.interval);
+      console.log('🔄 Estado cycling:', instance._isPaused ? 'Pausado' : 'Activo');
+    } else {
+      console.log('❌ No hay instancia Bootstrap');
+    }
+  } else {
+    console.log('❌ Bootstrap no disponible');
+  }
+  
+  const items = carousel.querySelectorAll('.carousel-item');
+  console.log(`📄 Slides encontrados: ${items.length}`);
+};
+
+// Auto-verificación después de 2 segundos
+setTimeout(() => {
+  console.log('🔍 Verificación automática del carrusel:');
+  window.checkCarousel();
+}, 2000);
+
+// =======================================================
+// 🎨 BOTONES "LEER MÁS" CON COLOR SECUNDARIO
+// =======================================================
+function initReadMoreButtons() {
+  // Seleccionar específicamente los botones "Leer más"
+  const readMoreButtons = document.querySelectorAll('a.btn-outline-primary[href*="idealista"], a.btn-outline-primary[href*="weforum"], a.btn-outline-primary[href*="psychologytoday"], a.btn-outline-primary[href*="junecare"], a.btn-outline-primary[href*="soledades"]');
+  
+  console.log(`🔘 Inicializando ${readMoreButtons.length} botones "Leer más"`);
+  
+  readMoreButtons.forEach((button, index) => {
+    console.log(`Botón ${index + 1}: ${button.textContent.trim()}`);
+    
+    // Agregar clase personalizada para identificación
+    button.classList.add('btn-read-more');
+    
+    // Evento mousedown para efecto inmediato
+    button.addEventListener('mousedown', function(e) {
+      this.classList.add('active');
+      console.log('🖱️ Clic en botón "Leer más" - aplicando color secundario');
+    });
+    
+    // Evento click para mantener el efecto
+    button.addEventListener('click', function(e) {
+      this.classList.add('active');
+      
+      // Crear efecto de pulso
+      this.style.transform = 'scale(0.95)';
+      
+      setTimeout(() => {
+        this.style.transform = '';
+      }, 150);
+      
+      // Mantener el color secundario por un momento antes de que se abra el enlace
+      setTimeout(() => {
+        this.classList.remove('active');
+      }, 400);
+    });
+    
+    // Evento mouseup para limpiar estado
+    button.addEventListener('mouseup', function() {
+      setTimeout(() => {
+        if (!this.matches(':hover')) {
+          this.classList.remove('active');
+        }
+      }, 200);
+    });
+    
+    // Limpiar al salir del botón
+    button.addEventListener('mouseleave', function() {
+      setTimeout(() => {
+        this.classList.remove('active');
+      }, 100);
+    });
+  });
+}
+
+// Inicializar botones "Leer más" cuando el DOM esté listo
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initReadMoreButtons);
+} else {
+  initReadMoreButtons();
+}
+
+// =======================================================
+// 📐 CENTRADO MEJORADO DE TESTIMONIOS
+// =======================================================
+function improveTestimonialCentering() {
+  const testimonialCarousel = document.getElementById('carouselTestimonios');
+  
+  if (!testimonialCarousel) return;
+  
+  console.log('🎯 Mejorando centrado de testimonios');
+  
+  // Asegurar que las imágenes se centren después de cargar
+  const avatarImages = testimonialCarousel.querySelectorAll('.testimonial__avatar');
+  
+  avatarImages.forEach((img, index) => {
+    // Si la imagen ya está cargada
+    if (img.complete) {
+      img.style.display = 'block';
+      img.style.margin = '0 auto';
+    } else {
+      // Esperar a que cargue la imagen
+      img.addEventListener('load', function() {
+        this.style.display = 'block';
+        this.style.margin = '0 auto';
+        console.log(`✅ Imagen ${index + 1} cargada y centrada`);
+      });
+      
+      img.addEventListener('error', function() {
+        console.warn(`⚠️ Error cargando imagen ${index + 1}`);
+        // Mantener el espacio pero ocultar la imagen rota
+        this.style.visibility = 'hidden';
+      });
+    }
+  });
+  
+  // Mejorar el espaciado después de transiciones del carrusel
+  testimonialCarousel.addEventListener('slid.bs.carousel', function() {
+    // Pequeño delay para asegurar que la transición terminó
+    setTimeout(() => {
+      const activeItem = this.querySelector('.carousel-item.active');
+      if (activeItem) {
+        const row = activeItem.querySelector('.row');
+        if (row) {
+          // Forzar re-centrado
+          row.style.justifyContent = 'center';
+          row.style.alignItems = 'center';
+        }
+      }
+    }, 50);
+  });
+}
+
+// Inicializar centrado mejorado
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', improveTestimonialCentering);
+} else {
+  improveTestimonialCentering();
+}
+
+// =======================================================
+// 📱 RESPONSIVE MEJORADO PARA NOSOTROS
+// =======================================================
+function improveNosotrosResponsive() {
+  const nosotrosContent = document.querySelector('.nosotros__content');
+  const nosotrosImage = document.querySelector('.nosotros__image');
+  const nosotrosList = document.querySelector('.nosotros__list');
+  const nosotrosItems = document.querySelectorAll('.nosotros__item');
+  
+  if (!nosotrosContent || !nosotrosImage || !nosotrosList) return;
+  
+  console.log('📱 Mejorando responsive de sección Nosotros');
+  
+  function adjustLayout() {
+    const screenWidth = window.innerWidth;
+    
+    // Mobile (< 768px)
+    if (screenWidth < 768) {
+      nosotrosContent.style.flexDirection = 'column';
+      nosotrosImage.style.position = 'static';
+      nosotrosImage.style.width = '100%';
+      nosotrosImage.style.marginBottom = '2rem';
+      
+      nosotrosItems.forEach((item, index) => {
+        item.style.animationDelay = `${index * 0.1}s`;
+        item.classList.add('fade-in-up');
+      });
+    }
+    // Tablet (768px - 991px)
+    else if (screenWidth >= 768 && screenWidth < 992) {
+      nosotrosContent.style.flexDirection = 'row';
+      nosotrosImage.style.position = 'sticky';
+      nosotrosImage.style.width = '40%';
+      nosotrosImage.style.marginBottom = '0';
+    }
+    // Desktop (992px+)
+    else {
+      nosotrosContent.style.flexDirection = 'row';
+      nosotrosImage.style.position = 'sticky';
+      nosotrosImage.style.width = '45%';
+      nosotrosImage.style.marginBottom = '0';
+    }
+  }
+  
+  // Ajustar layout inicial
+  adjustLayout();
+  
+  // Ajustar en resize con debounce
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(adjustLayout, 100);
+  });
+  
+  // Intersection Observer para animaciones en scroll
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const itemsObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('animate-in');
+        }, index * 150);
+        itemsObserver.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+  
+  // Observar items de nosotros
+  nosotrosItems.forEach(item => {
+    itemsObserver.observe(item);
+  });
+}
+
+// =======================================================
+// 🖼️ SINCRONIZAR ALTURA DE IMAGEN CON TEXTO - NOSOTROS
+// =======================================================
+function syncNosotrosImageHeight() {
+  const nosotrosImage = document.querySelector('.nosotros__image img');
+  const nosotrosList = document.querySelector('.nosotros__list');
+  
+  if (!nosotrosImage || !nosotrosList) return;
+  
+  function adjustImageHeight() {
+    const screenWidth = window.innerWidth;
+    
+    // Solo aplicar en desktop (992px+) 
+    if (screenWidth >= 992) {
+      // Resetear altura para obtener medida natural del contenido
+      nosotrosImage.style.height = 'auto';
+      
+      // Obtener altura del contenido de texto
+      const textHeight = nosotrosList.offsetHeight;
+      
+      // Aplicar la misma altura a la imagen
+      nosotrosImage.style.height = `${textHeight}px`;
+      
+      console.log(`🖼️ Altura de imagen sincronizada: ${textHeight}px`);
+    } else {
+      // En mobile/tablet, volver a altura automática
+      nosotrosImage.style.height = 'auto';
+    }
+  }
+  
+  // Ajustar inicialmente después de un breve delay para asegurar el renderizado
+  setTimeout(adjustImageHeight, 100);
+  
+  // Ajustar en resize
+  let imageResizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(imageResizeTimeout);
+    imageResizeTimeout = setTimeout(adjustImageHeight, 150);
+  });
+  
+  // Re-ajustar cuando las fuentes se cargan (puede cambiar la altura del texto)
+  document.fonts.ready.then(adjustImageHeight);
+}
+
+/* SISTEMA PARA APLICAR IMÁGENES DE FONDO A TARJETAS PRENSA/BLOG */
+function initCardBackgroundImages() {
+  console.log('🖼️ Inicializando sistema de imágenes de fondo para tarjetas');
+  
+  // Solo en desktop donde aplicamos el efecto
+  if (window.innerWidth >= 768) {
+    console.log('💻 Modo desktop: aplicando imágenes como fondo');
+    
+    // Función para aplicar imagen a una tarjeta
+    const applyBackgroundImage = (card, img, type, index) => {
+      if (img && img.src && img.src.includes('project-root')) {
+        console.log(`${type} ${index + 1}: Aplicando imagen ${img.src}`);
+        
+        // Esperar a que se cargue la imagen antes de aplicarla
+        const testImg = new Image();
+        testImg.onload = () => {
+          // Aplicar como background-image
+          card.style.setProperty('background-image', `url("${img.src}")`, 'important');
+          card.style.setProperty('background-size', 'cover', 'important');
+          card.style.setProperty('background-position', 'center', 'important');
+          card.style.setProperty('background-repeat', 'no-repeat', 'important');
+          card.classList.add('has-bg-image');
+          
+          console.log(`✅ ${type} ${index + 1}: Imagen aplicada correctamente`);
+        };
+        testImg.onerror = () => {
+          console.error(`❌ ${type} ${index + 1}: Error cargando imagen ${img.src}`);
+        };
+        testImg.src = img.src;
+      } else {
+        console.warn(`⚠️ ${type} ${index + 1}: No se encontró imagen válida`);
+      }
+    };
+    
+    // Tarjetas de prensa
+    const prensaCards = document.querySelectorAll('#prensa .card');
+    console.log(`� Encontradas ${prensaCards.length} tarjetas de prensa`);
+    
+    prensaCards.forEach((card, index) => {
+      const img = card.querySelector('.card-img-top');
+      applyBackgroundImage(card, img, '📰 Prensa', index);
+    });
+    
+    // Tarjetas de blog
+    const blogCards = document.querySelectorAll('#blog .card');
+    console.log(`📝 Encontradas ${blogCards.length} tarjetas de blog`);
+    
+    blogCards.forEach((card, index) => {
+      const img = card.querySelector('.card-img-top');
+      applyBackgroundImage(card, img, '📝 Blog', index);
+    });
+    
+    console.log('✅ Proceso de aplicación de imágenes de fondo iniciado');
+  } else {
+    console.log('📱 Modo móvil: usando imágenes HTML estándar');
+    // En mobile, limpiar estilos de fondo y mostrar imágenes HTML
+    const allCards = document.querySelectorAll('#prensa .card, #blog .card');
+    allCards.forEach(card => {
+      card.style.removeProperty('background-image');
+      card.style.removeProperty('background-size');
+      card.style.removeProperty('background-position');
+      card.style.removeProperty('background-repeat');
+      card.classList.remove('has-bg-image');
+    });
+  }
+}
+
+// Manejar cambios de tamaño de ventana
+window.addEventListener('resize', () => {
+  setTimeout(initCardBackgroundImages, 100);
+});
+
+// Función de debugging para las tarjetas (disponible en consola)
+window.debugCards = function() {
+  console.log('=== DEBUG TARJETAS PRENSA/BLOG ===');
+  console.log('📏 DIMENSIONES OBJETIVO: 500px alto × 365px ancho (igual que viviendas)');
+  
+  const prensaCards = document.querySelectorAll('#prensa .card');
+  const blogCards = document.querySelectorAll('#blog .card');
+  
+  console.log(`📰 Tarjetas prensa encontradas: ${prensaCards.length}`);
+  console.log(`📝 Tarjetas blog encontradas: ${blogCards.length}`);
+  console.log(`📱 Tamaño ventana: ${window.innerWidth}px`);
+  
+  prensaCards.forEach((card, index) => {
+    const img = card.querySelector('.card-img-top');
+    const bgImage = getComputedStyle(card).backgroundImage;
+    const cardStyle = getComputedStyle(card);
+    console.log(`📰 Prensa ${index + 1}:`);
+    console.log(`  - Imagen HTML src: ${img?.src || 'NO ENCONTRADA'}`);
+    console.log(`  - Background image: ${bgImage}`);
+    console.log(`  - Has bg-image class: ${card.classList.contains('has-bg-image')}`);
+    console.log(`  - Dimensiones actuales: ${cardStyle.width} × ${cardStyle.height}`);
+  });
+  
+  blogCards.forEach((card, index) => {
+    const img = card.querySelector('.card-img-top');
+    const bgImage = getComputedStyle(card).backgroundImage;
+    const cardStyle = getComputedStyle(card);
+    console.log(`📝 Blog ${index + 1}:`);
+    console.log(`  - Imagen HTML src: ${img?.src || 'NO ENCONTRADA'}`);
+    console.log(`  - Background image: ${bgImage}`);
+    console.log(`  - Has bg-image class: ${card.classList.contains('has-bg-image')}`);
+    console.log(`  - Dimensiones actuales: ${cardStyle.width} × ${cardStyle.height}`);
+  });
+  
+  // Comparar con viviendas
+  const viviendaCards = document.querySelectorAll('#viviendas .card');
+  if (viviendaCards.length > 0) {
+    const viviendaStyle = getComputedStyle(viviendaCards[0]);
+    console.log(`🏠 REFERENCIA VIVIENDAS: ${viviendaStyle.width} × ${viviendaStyle.height}`);
+  }
+};
+
+// Función para forzar re-aplicación de imágenes
+window.forceCardImages = function() {
+  console.log('🔄 Forzando re-aplicación de imágenes...');
+  initCardBackgroundImages();
+  setTimeout(() => {
+    window.debugCards();
+  }, 1000);
+};
+
+// Inicializar AOS y sistema completo
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    initAOS();
+    improveNosotrosResponsive();
+    syncNosotrosImageHeight();
+    initNosotrosAnimations();
+    initFormAnimations(); // Cambiado de initFooterAnimations a initFormAnimations
+    initFooterAnimations(); // Mantener pero ahora está deshabilitado
+    
+    // Aplicar imágenes con delay para asegurar que el DOM esté listo
+    setTimeout(() => {
+      initCardBackgroundImages();
+      console.log('💡 Funciones de debug disponibles:');
+      console.log('  - window.debugCards() - Ver estado de las tarjetas');
+      console.log('  - window.forceCardImages() - Forzar re-aplicación de imágenes');
+      console.log('  - window.debugFormIcons() - Ver estado y animar iconos del formulario');
+    }, 500);
+  });
+} else {
+  initAOS();
+  improveNosotrosResponsive();
+  syncNosotrosImageHeight();
+  initNosotrosAnimations();
+  initFormAnimations(); // Cambiado de initFooterAnimations a initFormAnimations
+  initFooterAnimations(); // Mantener pero ahora está deshabilitado
+  
+  setTimeout(() => {
+    initCardBackgroundImages();
+    console.log('💡 Funciones de debug disponibles:');
+    console.log('  - window.debugCards() - Ver estado de las tarjetas');
+    console.log('  - window.forceCardImages() - Forzar re-aplicación de imágenes');
+    console.log('  - window.debugFormIcons() - Ver estado y animar iconos del formulario');
+  }, 500);
+}
+
+/* INICIALIZACIÓN AOS */
+function initAOS() {
+  if (typeof AOS !== 'undefined') {
+    AOS.init({
+      offset: 50,
+      duration: 1000,
+      easing: 'ease-out-cubic',
+      mirror: true,
+      mirrorOffset: 150,
+      once: false,
+      disable: false,
+      startEvent: 'DOMContentLoaded',
+      initClassName: 'aos-init',
+      animatedClassName: 'aos-animate'
+    });
+    
+    console.log('🎬 AOS inicializado correctamente');
+    console.log('⚙️ Configuración: offset=50, duration=1000, mirror=true');
+    
+    // Refresh AOS después de un delay para asegurar detección correcta
+    setTimeout(() => {
+      AOS.refresh();
+      console.log('🔄 AOS refresh ejecutado');
+    }, 500);
+    
+  } else {
+    console.log('❌ AOS no está disponible - verificar carga del script');
+  }
+}
+
+/* SISTEMA DE ANIMACIONES PARA SECCIÓN NOSOTROS */
+function initNosotrosAnimations() {
+  // Buscar tanto la imagen directa como el contenedor con data-aos
+  const nosotrosImageContainer = document.querySelector('.nosotros__image[data-aos]');
+  const nosotrosImage = document.querySelector('.nosotros__image img');
+  const animateBlocks = document.querySelectorAll('.animate-on-image');
+  
+  if (!nosotrosImageContainer || animateBlocks.length === 0) {
+    console.log('❌ No se encontró imagen nosotros container o bloques animate-on-image');
+    console.log('Container:', nosotrosImageContainer);
+    console.log('Bloques:', animateBlocks.length);
+    return;
+  }
+  
+  console.log('🎬 Inicializando animaciones para sección Nosotros');
+  console.log('🖼️ Container imagen encontrado:', nosotrosImageContainer);
+  console.log('📝 Bloques encontrados:', animateBlocks.length);
+  
+  // Estado inicial - preparar los bloques para animación
+  animateBlocks.forEach((block, index) => {
+    // Limpiar cualquier clase de animación previa
+    block.classList.remove('animate__animated', 'animate__backInRight', 'animate__backOutRight');
+    
+    // Hacer visibles para testing
+    block.style.opacity = '1';
+    block.style.visibility = 'visible';
+    
+    console.log(`📝 Bloque ${index + 1} preparado:`, block.querySelector('h3')?.textContent);
+  });
+  
+  // Variable para controlar el estado de las animaciones
+  let animationsActive = false;
+  
+  // Función para activar animaciones de entrada
+  function activateEntryAnimations() {
+    if (animationsActive) return;
+    animationsActive = true;
+    
+    console.log('🎯 ESPERANDO que termine animación de imagen fade-left...');
+    
+    // Esperar a que termine la animación de la imagen (fade-left = 1000ms + buffer)
+    setTimeout(() => {
+      console.log('🎯 ACTIVANDO animaciones de entrada - backInRight escalonado');
+    
+    animateBlocks.forEach((block, index) => {
+      setTimeout(() => {
+        // Limpiar clases de salida
+        block.classList.remove('animate__backOutRight');
+        // Activar animación de entrada
+        block.classList.add('animate__animated', 'animate__backInRight');
+        
+        console.log(`✨ Bloque ${index + 1} -> backInRight (delay: ${index * 400}ms después de imagen)`);
+      }, index * 400); // Escalonado: 0ms, 400ms, 800ms
+    });
+    }, 1200); // Esperar 1200ms a que termine la imagen
+  }
+  
+  // Función para activar animaciones de salida
+  function activateExitAnimations() {
+    if (!animationsActive) return;
+    animationsActive = false;
+    
+    console.log('🎯 ACTIVANDO animaciones de salida - backOutRight escalonado');
+    
+    animateBlocks.forEach((block, index) => {
+      setTimeout(() => {
+        // Limpiar clases de entrada
+        block.classList.remove('animate__backInRight');
+      // Activar animación de salida
+        block.classList.add('animate__animated', 'animate__backOutRight');
+      
+      console.log(`💨 Bloque ${index + 1} -> backOutRight (delay: ${index * 200}ms)`);
+      }, index * 200); // Escalonado de salida: 0ms, 200ms, 400ms
+    });
+  }
+  
+  // Esperar a que AOS esté completamente inicializado
+  setTimeout(() => {
+    // Escuchar eventos AOS del container de la imagen
+    document.addEventListener('aos:in', function(event) {
+      if (event.detail && event.detail.el === nosotrosImageContainer) {
+        console.log('🎯 IMAGEN NOSOTROS ENTRA EN VIEWPORT');
+        activateEntryAnimations();
+      }
+    });
+    
+    document.addEventListener('aos:out', function(event) {
+      if (event.detail && event.detail.el === nosotrosImageContainer) {
+        console.log('🎯 IMAGEN NOSOTROS SALE DEL VIEWPORT');
+        activateExitAnimations();
+      }
+    });
+    
+    // También usar IntersectionObserver como respaldo
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.target === nosotrosImageContainer) {
+          if (entry.isIntersecting) {
+            console.log('👁️ OBSERVER: Imagen visible - activando animaciones');
+            activateEntryAnimations();
+          } else {
+            console.log('👁️ OBSERVER: Imagen no visible - desactivando animaciones');
+            activateExitAnimations();
+          }
+        }
+      });
+    }, {
+      threshold: 0.3,
+      rootMargin: '0px'
+    });
+    
+    observer.observe(nosotrosImageContainer);
+    
+    console.log('✅ Sistema de animaciones "Nosotros" COMPLETAMENTE inicializado');
+    console.log('🎬 Escuchando eventos AOS y usando IntersectionObserver como respaldo');
+    
+    // TESTING: Activar animaciones después de 3 segundos para demostración
+    setTimeout(() => {
+      console.log('🧪 TESTING: Activando animaciones de demostración en 3 segundos...');
+      activateEntryAnimations();
+      
+      // Y luego la animación de salida después de 5 segundos más
+      setTimeout(() => {
+        console.log('🧪 TESTING: Activando animación de salida...');
+        activateExitAnimations();
+      }, 5000);
+    }, 3000);
+    
+  }, 2000); // Dar más tiempo a AOS para inicializarse completamente
+}
+
+/* SISTEMA DE ANIMACIONES PARA ICONOS DEL FORMULARIO */
+function initFormAnimations() {
+  // Buscar el contenedor de detalles del formulario por ID
+  const formDetailsContainer = document.getElementById('form-details-container');
+  const formIcons = document.querySelectorAll('.animate-on-form');
+  
+  if (!formDetailsContainer || formIcons.length === 0) {
+    console.log('❌ No se encontró form details container o iconos animate-on-form');
+    console.log('Container:', formDetailsContainer);
+    console.log('Iconos:', formIcons.length);
+    return;
+  }
+  
+  console.log('🎬 Inicializando animaciones SOLO para iconos del formulario');
+  console.log('📝 Container details encontrado:', formDetailsContainer);
+  console.log('🔗 Iconos encontrados:', formIcons.length);
+  
+  // Estado inicial - preparar los iconos para animación
+  formIcons.forEach((icon, index) => {
+    // Limpiar cualquier clase de animación previa
+    icon.classList.remove('animate__animated', 'animate__backInRight', 'animate__backOutRight');
+    
+    // Hacer visibles para testing
+    icon.style.opacity = '1';
+    icon.style.visibility = 'visible';
+    
+    console.log(`🔗 Icono ${index + 1} preparado:`, icon.getAttribute('src'));
+  });
+  
+  // Variable para controlar el estado de las animaciones
+  let formAnimationsActive = false;
+  
+  // Función para activar animaciones de entrada con CSS simple
+  function activateFormEntryAnimations() {
+    if (formAnimationsActive) return;
+    formAnimationsActive = true;
+    
+    console.log('🎯 ACTIVANDO animaciones de entrada iconos SVG - slideInRight escalonado');
+    
+    formIcons.forEach((icon, index) => {
+      setTimeout(() => {
+        // Animar entrada con CSS simple
+        icon.style.opacity = '1';
+        icon.style.transform = 'translateX(0px)';
+        
+        console.log(`✨ Icono SVG ${index + 1} (${icon.src.split('/').pop()}) -> entrada (delay: ${index * 200}ms)`);
+      }, index * 200); // Escalonado: 0ms, 200ms, 400ms, 600ms
+    });
+  }
+  
+  // Función para activar animaciones de salida con CSS simple
+  function activateFormExitAnimations() {
+    if (!formAnimationsActive) return;
+    formAnimationsActive = false;
+    
+    console.log('🎯 ACTIVANDO animaciones de salida iconos SVG - slideOutRight escalonado');
+    
+    formIcons.forEach((icon, index) => {
+      setTimeout(() => {
+        // Animar salida con CSS simple
+        icon.style.opacity = '0';
+        icon.style.transform = 'translateX(50px)';
+        
+        console.log(`💨 Icono SVG ${index + 1} (${icon.src.split('/').pop()}) -> salida (delay: ${index * 150}ms)`);
+      }, index * 150); // Escalonado de salida: 0ms, 150ms, 300ms, 450ms
+    });
+  }
+  
+  // Esperar a que AOS esté completamente inicializado
+  setTimeout(() => {
+    // Escuchar eventos AOS del contenedor de detalles
+    document.addEventListener('aos:in', function(event) {
+      if (event.detail && event.detail.el === formDetailsContainer) {
+        console.log('🎯 FORM DETAILS CONTAINER ENTRA EN VIEWPORT');
+        activateFormEntryAnimations();
+      }
+    });
+    
+    document.addEventListener('aos:out', function(event) {
+      if (event.detail && event.detail.el === formDetailsContainer) {
+        console.log('🎯 FORM DETAILS CONTAINER SALE DEL VIEWPORT');
+        activateFormExitAnimations();
+      }
+    });
+    
+    // También usar IntersectionObserver como respaldo
+    const formObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.target === formDetailsContainer) {
+          if (entry.isIntersecting) {
+            console.log('👁️ OBSERVER: Form details visible - activando animaciones iconos');
+            activateFormEntryAnimations();
+          } else {
+            console.log('👁️ OBSERVER: Form details no visible - desactivando animaciones iconos');
+            activateFormExitAnimations();
+          }
+        }
+      });
+    }, {
+      threshold: 0.3,
+      rootMargin: '0px'
+    });
+    
+  formObserver.observe(formDetailsContainer);
+  
+  // Inicializar estado de los iconos SVG
+  formIcons.forEach((icon, index) => {
+    icon.style.opacity = '0';
+    icon.style.transform = 'translateX(50px)';
+    icon.style.transition = 'all 0.6s ease';
+  });
+  
+  console.log('✅ Sistema de animaciones "Iconos SVG Formulario" COMPLETAMENTE inicializado');
+  console.log(`📝 Iconos SVG encontrados: ${formIcons.length}`);
+  formIcons.forEach((icon, index) => {
+    console.log(`  - Icono ${index + 1}: ${icon.src.split('/').pop()}`);
+  });
+}
+
+// Función de debug para iconos SVG del formulario
+window.debugFormIcons = function() {
+  console.log('=== DEBUG ICONOS SVG FORMULARIO ===');
+  
+  const container = document.getElementById('form-details-container');
+  const icons = document.querySelectorAll('.animate-on-form');
+  
+  console.log('🎯 Container encontrado:', container);
+  console.log('🔗 Iconos SVG encontrados:', icons.length);
+  
+  if (container) {
+    console.log('📍 Container ID:', container.id);
+    console.log('📍 Container visible:', container.offsetWidth > 0 && container.offsetHeight > 0);
+  }
+  
+  icons.forEach((icon, index) => {
+    console.log(`🔗 Icono SVG ${index + 1}: ${icon.src.split('/').pop()}`, {
+      opacity: icon.style.opacity,
+      transform: icon.style.transform,
+      classes: icon.className
+    });
+  });
+  
+  // Forzar animación de entrada para testing
+  console.log('🧪 Forzando animación de entrada SVG...');
+  icons.forEach((icon, index) => {
+    setTimeout(() => {
+      icon.style.opacity = '1';
+      icon.style.transform = 'translateX(0px)';
+      console.log(`✨ Icono SVG ${index + 1} (${icon.src.split('/').pop()}) animado manualmente`);
+    }, index * 200);
+  });
+};
+
+/* SISTEMA DE ANIMACIONES PARA ICONOS DEL FOOTER - DESHABILITADO */
+function initFooterAnimations() {
+  console.log('⚪ Footer animations deshabilitadas - footer estático como solicitado');
+  return;
+  
+  console.log('🎬 Inicializando animaciones para iconos del footer');
+  console.log('📱 Container footer encontrado:', footerSocialContainer);
+  console.log('🔗 Iconos encontrados:', footerIcons.length);
+  
+  // Estado inicial - preparar los iconos para animación
+  footerIcons.forEach((icon, index) => {
+    // Limpiar cualquier clase de animación previa
+    icon.classList.remove('animate__animated', 'animate__backInRight', 'animate__backOutRight');
+    
+    // Hacer visibles para testing
+    icon.style.opacity = '1';
+    icon.style.visibility = 'visible';
+    
+    console.log(`🔗 Icono ${index + 1} preparado:`, icon.getAttribute('aria-label'));
+  });
+  
+  // Variable para controlar el estado de las animaciones
+  let footerAnimationsActive = false;
+  
+  // Función para activar animaciones de entrada
+  function activateFooterEntryAnimations() {
+    if (footerAnimationsActive) return;
+    footerAnimationsActive = true;
+    
+    console.log('🎯 ESPERANDO que termine animación del footer fade-left...');
+    
+    // Esperar a que termine la animación del contenedor (fade-left = 800ms + buffer)
+    setTimeout(() => {
+      console.log('🎯 ACTIVANDO animaciones de entrada footer - backInRight escalonado');
+    
+      footerIcons.forEach((icon, index) => {
+        setTimeout(() => {
+          // Limpiar clases de salida
+          icon.classList.remove('animate__backOutRight');
+          // Activar animación de entrada
+          icon.classList.add('animate__animated', 'animate__backInRight');
+          
+          console.log(`✨ Icono ${index + 1} -> backInRight (delay: ${index * 200}ms después de footer)`);
+        }, index * 200); // Escalonado: 0ms, 200ms, 400ms
+      });
+    }, 1000); // Esperar 1000ms a que termine el footer
+  }
+  
+  // Función para activar animaciones de salida
+  function activateFooterExitAnimations() {
+    if (!footerAnimationsActive) return;
+    footerAnimationsActive = false;
+    
+    console.log('🎯 ACTIVANDO animaciones de salida footer - backOutRight escalonado');
+    
+    footerIcons.forEach((icon, index) => {
+      setTimeout(() => {
+        // Limpiar clases de entrada
+        icon.classList.remove('animate__backInRight');
+        // Activar animación de salida
+        icon.classList.add('animate__animated', 'animate__backOutRight');
+        
+        console.log(`💨 Icono ${index + 1} -> backOutRight (delay: ${index * 150}ms)`);
+      }, index * 150); // Escalonado de salida: 0ms, 150ms, 300ms
+    });
+  }
+  
+  // Esperar a que AOS esté completamente inicializado
+  setTimeout(() => {
+    // Escuchar eventos AOS del container del footer
+    document.addEventListener('aos:in', function(event) {
+      if (event.detail && event.detail.el === footerSocialContainer) {
+        console.log('🎯 FOOTER SOCIAL ENTRA EN VIEWPORT');
+        activateFooterEntryAnimations();
+      }
+    });
+    
+    document.addEventListener('aos:out', function(event) {
+      if (event.detail && event.detail.el === footerSocialContainer) {
+        console.log('🎯 FOOTER SOCIAL SALE DEL VIEWPORT');
+        activateFooterExitAnimations();
+      }
+    });
+    
+    // También usar IntersectionObserver como respaldo
+    const footerObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.target === footerSocialContainer) {
+          if (entry.isIntersecting) {
+            console.log('👁️ OBSERVER: Footer visible - activando animaciones');
+            activateFooterEntryAnimations();
+          } else {
+            console.log('👁️ OBSERVER: Footer no visible - desactivando animaciones');
+            activateFooterExitAnimations();
+          }
+        }
+      });
+    }, {
+      threshold: 0.3,
+      rootMargin: '0px'
+    });
+    
+    footerObserver.observe(footerSocialContainer);
+    
+    console.log('✅ Sistema de animaciones "Footer" COMPLETAMENTE inicializado');
+    
+  }, 2500); // Dar un poco más de tiempo que nosotros para evitar conflictos
+}
