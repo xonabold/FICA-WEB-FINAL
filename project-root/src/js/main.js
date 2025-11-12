@@ -354,72 +354,425 @@ if (document.readyState === 'loading') {
 }
 
 // =======================================================
-// 7️⃣ ANIMACIONES ICONOS FORMULARIO - IGUAL QUE NOSOTROS
+// 7️⃣ SISTEMA DE ANIMACIONES COMPLETO - ENTRADA Y SALIDA
 // =======================================================
-function initFormIconAnimations() {
-  console.log('🎬 Inicializando animaciones de iconos del formulario');
+
+// Configuración de animaciones por tipo de elemento
+const ANIMATION_CONFIG = {
+  // Títulos y encabezados
+  titles: {
+    entry: 'animate__fadeInDown',
+    exit: 'animate__fadeOutUp',
+    delay: 100
+  },
+  // Subtítulos y textos introductorios
+  subtitles: {
+    entry: 'animate__fadeInUp', 
+    exit: 'animate__fadeOutDown',
+    delay: 150
+  },
+  // Párrafos y texto general
+  paragraphs: {
+    entry: 'animate__fadeInLeft',
+    exit: 'animate__fadeOutLeft', 
+    delay: 120 // Delay más rápido pero mantendrá escalonado
+  },
+  // Iconos y elementos pequeños
+  icons: {
+    entry: 'animate__fadeInRight',
+    exit: 'animate__fadeOutLeft',
+    delay: 200
+  },
+  // Imágenes
+  images: {
+    entry: 'animate__zoomIn',
+    exit: 'animate__zoomOut',
+    delay: 250
+  },
+  // Botones y CTAs
+  buttons: {
+    entry: 'animate__fadeInUp',
+    exit: 'animate__fadeOutDown',
+    delay: 300
+  }
+};
+
+function initComprehensiveAnimations() {
+  console.log('🎬 Inicializando sistema completo de animaciones');
   
-  const formContainer = document.getElementById('form-details-container');
-  const formIcons = document.querySelectorAll('.animate-on-form');
-  
-  if (!formContainer || formIcons.length === 0) {
-    console.warn('❌ No se encontraron elementos del formulario para animar');
-    return;
+  // Desactivar AOS para elementos que vamos a controlar manualmente
+  if (typeof AOS !== 'undefined') {
+    // Deshabilitar AOS temporalmente
+    console.log('⏸️ Pausando AOS para control manual');
   }
   
-  console.log(`🔗 Encontrados ${formIcons.length} iconos para animar`);
-  
-  // Función para activar animación de entrada (escalonada)
-  function activateFormEntryAnimations() {
-    console.log('🎬 Activando animaciones de entrada de iconos (muy lentas y escalonadas)');
-    
-    formIcons.forEach((icon, index) => {
-      // Limpiar clases previas
-      icon.classList.remove('animate__fadeOutLeft', 'animate__animated');
-      
-      // Aplicar animación de entrada con delay MUY escalonado
-      setTimeout(() => {
-        icon.classList.add('animate__animated', 'animate__fadeInRight');
-        console.log(`✨ Icono ${index + 1} (${icon.src.split('/').pop()}) -> fadeInRight (delay: ${index * 800}ms)`);
-      }, index * 800); // Escalonado MUY lento: 0ms, 800ms, 1600ms, 2400ms
-    });
-  }
-  
-  // Función para activar animación de salida (simultánea)
-  function activateFormExitAnimations() {
-    console.log('🎬 Activando animaciones de salida de iconos (simultáneas)');
-    
-    formIcons.forEach((icon, index) => {
-      // Limpiar clases de entrada
-      icon.classList.remove('animate__fadeInRight');
-      
-      // Aplicar animación de salida SIN delay (todos juntos)
-      icon.classList.add('animate__animated', 'animate__fadeOutLeft');
-      console.log(`🌊 Icono ${index + 1} (${icon.src.split('/').pop()}) -> fadeOutLeft (inverso de entrada)`);
-    });
-  }
-  
-  // Usar IntersectionObserver como en la sección nosotros
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.target === formContainer) {
-        if (entry.isIntersecting) {
-          console.log('👁️ Formulario visible - activando animaciones de iconos');
-          activateFormEntryAnimations();
-        } else {
-          console.log('👁️ Formulario no visible - activando animaciones de salida');
-          activateFormExitAnimations();
-        }
+  // Seleccionar todos los elementos animables por sección
+  const animatedSections = [
+    {
+      container: document.getElementById('hero'),
+      elements: {
+        titles: ['h1', '.hero__title'],
+        subtitles: ['p.hero__subtitle'],
+        buttons: ['.hero__actions .btn']
       }
+    },
+    {
+      container: document.getElementById('nosotros'), 
+      elements: {
+        titles: ['h2'], // Solo el título principal, no los h3 internos
+        subtitles: ['.section__intro']
+        // Los bloques .animate-on-image serán manejados especialmente
+      },
+      // Sistema especial para bloques de texto escalonados
+      specialBlocks: true
+    },
+    {
+      container: document.getElementById('viviendas'),
+      elements: {
+        titles: ['h2'],
+        subtitles: ['.section__intro'],
+        buttons: ['.btn--cta']
+      }
+    },
+    {
+      container: document.getElementById('testimonios'),
+      elements: {
+        titles: ['h2'],
+        subtitles: ['.section__intro']
+      }
+    },
+    {
+      container: document.getElementById('prensa'),
+      elements: {
+        titles: ['h2'],
+        subtitles: ['.section__intro'],
+        buttons: ['.btn--cta']
+      }
+    },
+    {
+      container: document.getElementById('blog'),
+      elements: {
+        titles: ['h2'],
+        subtitles: ['.section__intro']
+      }
+    },
+    {
+      container: document.getElementById('contacto'),
+      elements: {
+        titles: ['h2'],
+        subtitles: ['.section__intro'],
+        buttons: ['.btn--cta']
+      },
+      // Sistema especial para iconos del formulario
+      specialIcons: true
+    }
+  ];
+  
+  // Función para aplicar animaciones de entrada
+  function applyEntryAnimations(container, elements) {
+    Object.keys(elements).forEach(type => {
+      const selectors = elements[type];
+      const config = ANIMATION_CONFIG[type];
+      
+      if (!config) return;
+      
+      selectors.forEach(selector => {
+        const elementList = container.querySelectorAll(selector);
+        elementList.forEach((element, index) => {
+          setTimeout(() => {
+            // Limpiar clases previas
+            element.classList.remove(config.exit, 'animate__animated');
+            // Aplicar animación de entrada
+            element.classList.add('animate__animated', config.entry);
+            console.log(`✨ ${type} -> ${config.entry} (delay: ${index * config.delay}ms)`);
+          }, index * config.delay);
+        });
+      });
     });
-  }, {
-    threshold: 0.3,
-    rootMargin: '0px'
-  });
+  }
   
-  observer.observe(formContainer);
+  // Función para aplicar animaciones de salida
+  function applyExitAnimations(container, elements) {
+    Object.keys(elements).forEach(type => {
+      const selectors = elements[type];
+      const config = ANIMATION_CONFIG[type];
+      
+      if (!config) return;
+      
+      selectors.forEach(selector => {
+        const elementList = container.querySelectorAll(selector);
+        elementList.forEach((element, index) => {
+          setTimeout(() => {
+            // Limpiar clases previas
+            element.classList.remove(config.entry, 'animate__animated');
+            // Aplicar animación de salida
+            element.classList.add('animate__animated', config.exit);
+            console.log(`🌊 ${type} -> ${config.exit} (simultáneo)`);
+          }, 0); // Salidas simultáneas
+        });
+      });
+    });
+  }
   
-  console.log('✅ Sistema de animaciones "Iconos Formulario" inicializado');
+    // Configurar observers para cada sección
+  animatedSections.forEach(section => {
+    if (!section.container) return;
+    
+    // Observer principal para la mayoría de elementos
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.target === section.container) {
+          if (entry.isIntersecting) {
+            console.log(`👁️ Sección ${section.container.id} ENTRA - animaciones de entrada`);
+            applyEntryAnimations(section.container, section.elements);
+          } else {
+            console.log(`👁️ Sección ${section.container.id} SALE - animaciones de salida`);
+            applyExitAnimations(section.container, section.elements);
+          }
+        }
+      });
+    }, {
+      threshold: 0.7, // Mayor threshold = salida más temprana
+      rootMargin: '300px 0px 300px 0px' // Mayor margen = detección más temprana
+    });
+    
+    // Observer específico para títulos (salida más temprana)
+    const titleObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.target === section.container) {
+          if (!entry.isIntersecting) {
+            console.log(`⚡ Títulos de ${section.container.id} - SALIDA TEMPRANA`);
+            // Solo animar salida de títulos cuando salen del viewport
+            const titleElements = section.elements.titles || [];
+            titleElements.forEach(selector => {
+              const elements = section.container.querySelectorAll(selector);
+              elements.forEach(element => {
+                element.classList.remove('animate__fadeInDown', 'animate__animated');
+                element.classList.add('animate__animated', 'animate__fadeOutUp');
+              });
+            });
+          }
+        }
+      });
+    }, {
+      threshold: 0.8, // Salida cuando solo 80% está visible = MUY TEMPRANA
+      rootMargin: '400px 0px 400px 0px' // Margen mucho mayor para títulos
+    });
+
+    // Observer específico para subtítulos (salida temprana)
+    const subtitleObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.target === section.container) {
+          if (!entry.isIntersecting) {
+            console.log(`⚡ Subtítulos de ${section.container.id} - SALIDA TEMPRANA`);
+            // Solo animar salida de subtítulos cuando salen del viewport
+            const subtitleElements = section.elements.subtitles || [];
+            subtitleElements.forEach(selector => {
+              const elements = section.container.querySelectorAll(selector);
+              elements.forEach(element => {
+                element.classList.remove('animate__fadeInUp', 'animate__animated');
+                element.classList.add('animate__animated', 'animate__fadeOutDown');
+              });
+            });
+          }
+        }
+      });
+    }, {
+      threshold: 0.7, // Salida cuando 70% está visible = MUY TEMPRANA
+      rootMargin: '350px 0px 350px 0px' // Margen mayor para subtítulos
+    });
+    
+    observer.observe(section.container);
+    titleObserver.observe(section.container);
+    subtitleObserver.observe(section.container);
+    
+    // Sistema especial para imagen de nosotros (mantenerla estable)
+    if (section.container.id === 'nosotros') {
+      const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.target === section.container) {
+            const image = section.container.querySelector('.nosotros__image');
+            if (entry.isIntersecting && image) {
+              console.log(`🖼️ Imagen nosotros ENTRA POR IZQUIERDA - animación única`);
+              // Limpiar todas las clases de animación
+              image.classList.remove('animate__fadeOutLeft', 'animate__fadeInLeft', 'animate__animated');
+              // Aplicar animación de entrada desde la izquierda
+              setTimeout(() => {
+                image.classList.add('animate__animated', 'animate__fadeInLeft');
+                // Después de la animación, limpiar clases para mantenerla estable
+                setTimeout(() => {
+                  image.classList.remove('animate__animated', 'animate__fadeInLeft');
+                  image.style.opacity = '1';
+                  image.style.transform = 'translateX(0)';
+                  console.log(`🖼️ Imagen nosotros FIJADA - estable`);
+                }, 800); // Duración de la animación
+              }, 250);
+            } else if (!entry.isIntersecting && image) {
+              console.log(`🖼️ Imagen nosotros SALE POR IZQUIERDA`);
+              image.classList.remove('animate__fadeInLeft', 'animate__animated');
+              image.classList.add('animate__animated', 'animate__fadeOutLeft');
+            }
+          }
+        });
+      }, {
+        threshold: 0.7, // Salida más temprana para la imagen también
+        rootMargin: '200px 0px 200px 0px' // Mayor margen para detección temprana
+      });
+      
+      imageObserver.observe(section.container);
+    }
+    
+    // Sistema especial para bloques de texto de nosotros
+    if (section.specialBlocks && section.container.id === 'nosotros') {
+      const blocksObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.target === section.container) {
+            if (entry.isIntersecting) {
+              console.log(`🎯 Nosotros ENTRA - bloques de texto escalonados`);
+              applyNosotrosBlocksEntry(section.container);
+            } else {
+              console.log(`🎯 Nosotros SALE - bloques de texto en orden inverso`);
+              applyNosotrosBlocksExit(section.container);
+            }
+          }
+        });
+      }, {
+        threshold: 0.7,
+        rootMargin: '300px 0px 300px 0px'
+      });
+      
+      blocksObserver.observe(section.container);
+    }
+    
+    // Sistema especial para iconos del formulario
+    if (section.specialIcons && section.container.id === 'contacto') {
+      const specialObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.target === section.container) {
+            if (entry.isIntersecting) {
+              console.log(`🎯 Contacto ENTRA - secuencia especial de iconos`);
+              applySpecialFormIconsEntry(section.container);
+            } else {
+              console.log(`🎯 Contacto SALE - secuencia inversa de iconos`);
+              applySpecialFormIconsExit(section.container);
+            }
+          }
+        });
+      }, {
+        threshold: 0.3,
+        rootMargin: '100px 0px 100px 0px'
+      });
+      
+      specialObserver.observe(section.container);
+    }
+    
+    console.log(`✅ Observers configurados para: ${section.container.id}`);
+  });  // Funciones especiales para iconos del formulario
+  function applySpecialFormIconsEntry(container) {
+    const icons = container.querySelectorAll('.animate-on-form');
+    const subtitle = container.querySelector('.section__intro');
+    
+    // 1. Primero título y subtítulo (ya manejados por el sistema principal)
+    
+    // 2. Después iconos escalonados (después del subtítulo)
+    icons.forEach((icon, index) => {
+      setTimeout(() => {
+        icon.classList.remove('animate__fadeOutLeft', 'animate__animated');
+        icon.classList.add('animate__animated', 'animate__fadeInRight');
+        console.log(`🎯 Icono ${index + 1} -> fadeInRight (después de subtítulo)`);
+      }, 400 + (index * 150)); // Empezar después del subtítulo (400ms) + escalonado
+    });
+  }
+  
+  function applySpecialFormIconsExit(container) {
+    const icons = container.querySelectorAll('.animate-on-form');
+    const subtitle = container.querySelector('.section__intro');
+    const title = container.querySelector('h2');
+    
+    // 1. Primero iconos en orden INVERSO (últimos primero)
+    icons.forEach((icon, index) => {
+      const reverseIndex = icons.length - 1 - index;
+      setTimeout(() => {
+        icon.classList.remove('animate__fadeInRight', 'animate__animated');
+        icon.classList.add('animate__animated', 'animate__fadeOutLeft');
+        console.log(`🎯 Icono ${reverseIndex + 1} -> fadeOutLeft (orden inverso)`);
+      }, index * 100); // Salida rápida en orden inverso
+    });
+    
+    // 2. Después subtítulo (cuando termine el último icono)
+    setTimeout(() => {
+      if (subtitle) {
+        subtitle.classList.remove('animate__fadeInUp', 'animate__animated');
+        subtitle.classList.add('animate__animated', 'animate__fadeOutDown');
+        console.log(`🎯 Subtítulo -> fadeOutDown (después de iconos)`);
+      }
+    }, icons.length * 100 + 100);
+    
+    // 3. Finalmente título
+    setTimeout(() => {
+      if (title) {
+        title.classList.remove('animate__fadeInDown', 'animate__animated');
+        title.classList.add('animate__animated', 'animate__fadeOutUp');
+        console.log(`🎯 Título -> fadeOutUp (al final)`);
+      }
+    }, icons.length * 100 + 200);
+  }
+  
+  // Funciones especiales para bloques de texto de nosotros
+  function applyNosotrosBlocksEntry(container) {
+    const blocks = container.querySelectorAll('.animate-on-image');
+    
+    blocks.forEach((block, index) => {
+      const h3 = block.querySelector('h3');
+      const p = block.querySelector('p');
+      
+      // Cada bloque completo (h3 + p) entra escalonado
+      setTimeout(() => {
+        // Limpiar animaciones previas
+        if (h3) {
+          h3.classList.remove('animate__fadeOutLeft', 'animate__animated');
+          h3.classList.add('animate__animated', 'animate__fadeInLeft');
+        }
+        if (p) {
+          p.classList.remove('animate__fadeOutLeft', 'animate__animated');
+          // El párrafo entra ligeramente después del h3
+          setTimeout(() => {
+            p.classList.add('animate__animated', 'animate__fadeInLeft');
+          }, 50);
+        }
+        console.log(`📝 Bloque ${index + 1} (h3+p) -> fadeInLeft escalonado`);
+      }, index * 120); // Escalonado igual que párrafos: 0ms, 120ms, 240ms
+    });
+  }
+  
+  function applyNosotrosBlocksExit(container) {
+    const blocks = container.querySelectorAll('.animate-on-image');
+    
+    // Salida en orden inverso (último bloque primero)
+    blocks.forEach((block, index) => {
+      const h3 = block.querySelector('h3');
+      const p = block.querySelector('p');
+      const reverseIndex = blocks.length - 1 - index;
+      
+      setTimeout(() => {
+        // El párrafo sale primero
+        if (p) {
+          p.classList.remove('animate__fadeInLeft', 'animate__animated');
+          p.classList.add('animate__animated', 'animate__fadeOutLeft');
+        }
+        // El h3 sale ligeramente después
+        setTimeout(() => {
+          if (h3) {
+            h3.classList.remove('animate__fadeInLeft', 'animate__animated');
+            h3.classList.add('animate__animated', 'animate__fadeOutLeft');
+          }
+        }, 30);
+        console.log(`📝 Bloque ${reverseIndex + 1} (p+h3) -> fadeOutLeft orden inverso`);
+      }, index * 80); // Salida rápida en orden inverso
+    });
+  }
+  
+  console.log('✅ Sistema completo de animaciones inicializado');
 }
 
 // Inicializar cuando el DOM esté listo
@@ -429,7 +782,7 @@ function initializeAll() {
   // Pequeño delay para asegurar que todo esté renderizado
   setTimeout(() => {
     initMobileNavigation();
-    initFormIconAnimations();
+    initComprehensiveAnimations(); // Nuevo sistema completo de animaciones
   }, 100);
 }
 
