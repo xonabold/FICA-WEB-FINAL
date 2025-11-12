@@ -17,227 +17,7 @@
   
   <!-- CSS principal (rutas relativas, modo offline) -->
   <link rel="stylesheet" href="project-root/src/assets/css/styles.css" />
-  <style>
-    /* 🔥 NAVBAR INLINE - SOLUCIÓN DEFINITIVA */
-    
-    /* RESET COMPLETO */
-    .header .nav * {
-      box-sizing: border-box;
-    }
-    
-    /* DESKTOP - BASE */
-    .header .nav {
-      display: flex !important;
-      justify-content: space-between !important;
-      align-items: center !important;
-      padding: 1rem 0.5rem !important;
-      height: 70px !important;
-      position: relative !important;
-      max-width: 100% !important;
-      margin: 0 !important;
-    }
-    
-    .header .nav__brand {
-      display: flex !important;
-      align-items: center !important;
-      height: 100% !important;
-      flex-shrink: 0 !important;
-      position: static !important;
-      left: auto !important;
-      transform: none !important;
-      margin: 0 !important;
-    }
-    
-    .header .nav__menu {
-      display: flex !important;
-      list-style: none !important;
-      gap: 2rem !important;
-      align-items: center !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      position: static !important;
-      width: auto !important;
-      height: auto !important;
-      background: transparent !important;
-      flex-direction: row !important;
-      z-index: auto !important;
-      left: auto !important;
-      top: auto !important;
-      transition: none !important;
-    }
-    
-    .header .nav__menu a {
-      color: white !important;
-      font-size: 1rem !important;
-      font-weight: 500 !important;
-      text-decoration: none !important;
-      padding: 0.5rem 1rem !important;
-      transition: font-weight 0.3s ease !important;
-      background: transparent !important;
-      display: inline-block !important;
-    }
-    
-    .header .nav__menu a:hover {
-      font-weight: 700 !important;
-    }
-    
-    .header .nav__utils {
-      display: flex !important;
-      align-items: center !important;
-      gap: 1rem !important;
-      height: 100% !important;
-      flex-shrink: 0 !important;
-      position: static !important;
-      right: auto !important;
-    }
-    
-    .header .nav__toggle {
-      display: none !important;
-      flex-direction: column !important;
-      justify-content: space-around !important;
-      width: 30px !important;
-      height: 24px !important;
-      background: transparent !important;
-      border: none !important;
-      cursor: pointer !important;
-      padding: 0 !important;
-      position: static !important;
-      transform: none !important;
-    }
-    
-    .header .nav__toggle-line {
-      width: 100% !important;
-      height: 3px !important;
-      background: white !important;
-      transition: all 0.3s ease !important;
-    }
-    
-    .header .nav__toggle.is-active .nav__toggle-line:nth-child(1) {
-      transform: rotate(45deg) translate(6px, 6px) !important;
-    }
-    
-    .header .nav__toggle.is-active .nav__toggle-line:nth-child(2) {
-      opacity: 0 !important;
-    }
-    
-    .header .nav__toggle.is-active .nav__toggle-line:nth-child(3) {
-      transform: rotate(-45deg) translate(6px, -6px) !important;
-    }
-    
-    /* TABLET - ESTRUCTURA ESPECÍFICA */
-    @media (min-width: 769px) and (max-width: 1024px) {
-      .header .nav {
-        display: grid !important;
-        grid-template-columns: auto 1fr auto !important;
-        align-items: center !important;
-        gap: 1rem !important;
-        padding: 1rem 0.5rem !important;
-        justify-content: unset !important;
-      }
-      
-      .header .nav__brand {
-        grid-column: 1 !important;
-        justify-self: start !important;
-        transform: scale(0.9) !important;
-      }
-      
-      .header .nav__menu {
-        grid-column: 2 !important;
-        justify-self: center !important;
-        gap: 1rem !important;
-      }
-      
-      .header .nav__utils {
-        grid-column: 3 !important;
-        justify-self: end !important;
-        gap: 0.5rem !important;
-      }
-      
-      .header .nav__utils .btn {
-        font-size: 0.85rem !important;
-        padding: 0.4rem 0.8rem !important;
-      }
-      
-      .header .nav__utils .lang__btn {
-        font-size: 0.75rem !important;
-        padding: 0.3rem 0.6rem !important;
-      }
-      
-      .header .nav__menu a {
-        font-size: 0.9rem !important;
-        padding: 0.4rem 0.8rem !important;
-      }
-      
-      .header .nav__toggle {
-        display: none !important;
-      }
-    }
-    
-    /* MÓVIL */
-    @media (max-width: 768px) {
-      .header .nav {
-        display: grid !important;
-        grid-template-columns: auto 1fr auto !important;
-        align-items: center !important;
-        gap: 1rem !important;
-        padding: 1rem 0.5rem !important;
-        justify-content: unset !important;
-      }
-      
-      .header .nav__brand {
-        grid-column: 1 !important;
-        transform: scale(0.8) !important;
-        justify-self: start !important;
-      }
-      
-      .header .nav__toggle {
-        display: flex !important;
-        grid-column: 2 !important;
-        justify-self: center !important;
-      }
-      
-      .header .nav__utils {
-        grid-column: 3 !important;
-        justify-self: end !important;
-      }
-      
-      .header .nav__menu {
-        position: fixed !important;
-        top: 0 !important;
-        left: -100% !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        background: var(--brand-primary) !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
-        gap: 2rem !important;
-        z-index: 9999 !important;
-        transition: left 0.3s ease !important;
-      }
-      
-      .header .nav__menu.is-open {
-        left: 0 !important;
-      }
-      
-      .header .nav__menu li {
-        list-style: none !important;
-      }
-      
-      .header .nav__menu a {
-        color: white !important;
-        font-size: 1.5rem !important;
-        font-weight: 400 !important;
-        padding: 1rem !important;
-        text-align: center !important;
-        display: block !important;
-      }
-      
-      .header .nav__menu a:hover {
-        font-weight: 700 !important;
-      }
-    }
-  </style>
+
   <link rel="icon" href="project-root/src/assets/images/fabicon.png" type="image/png" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Source+Code+Pro:wght@300;400;500&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -246,15 +26,6 @@
     html, body {
       overflow-x: hidden;
       max-width: 100%;
-    }
-    
-    .container {
-      padding-left: 15px !important;
-      padding-right: 15px !important;
-    }
-    
-    * {
-      box-sizing: border-box;
     }
     
     .boxesContainer .card {
@@ -303,6 +74,88 @@
         width: 100% !important;
       }
     }
+    
+    /* 🎨 EFECTOS HOVER PARA TARJETAS DE PRENSA Y BLOG */
+    
+    /* Aplica igual a ambas secciones: #prensa y #blog */
+    #prensa .card-body, #blog .card-body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 2;
+      min-height: 140px;
+      padding: 1.5rem;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: flex-start !important;
+      align-items: flex-start !important;
+      background: rgba(0,0,0,0.4); /* Fondo semi-transparente inicial */
+      color: white !important;
+      transition: background 0.5s, opacity 0.5s;
+    }
+
+    /* Solo el titulo visible al inicio */
+    #prensa .card-title, #blog .card-title {
+      opacity: 1 !important;
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: white !important;
+      margin-bottom: 0.5rem;
+      z-index: 3;
+      position: relative;
+      line-height: 1.3;
+      margin-top: 0;
+    }
+
+    /* El texto de la tarjeta empieza oculto */
+    #prensa .card-text, #blog .card-text {
+      opacity: 0;
+      transition: opacity 0.5s, max-height 0.5s;
+      max-height: 0;
+      margin-top: 0.5rem;
+      display: block;
+      overflow: hidden;
+    }
+
+    /* En hover, fondo se oscurece y se muestra el texto */
+    #prensa .card:hover .card-body,
+    #blog .card:hover .card-body {
+      background: rgba(0,0,0,0.85);
+    }
+
+    /* En hover, el texto aparece */
+    #prensa .card:hover .card-text, 
+    #blog .card:hover .card-text {
+      opacity: 1;
+      max-height: 200px;
+    }
+    
+    /* Asegurar que las tarjetas tengan posición relativa para el absolute positioning */
+    #prensa .card, #blog .card {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Ajustar los elementos internos del card-body */
+    #prensa .card-body .flex-grow-1, #blog .card-body .flex-grow-1 {
+      display: contents;
+    }
+    
+    #prensa .card-body .text-center, #blog .card-body .text-center,
+    #prensa .card-body .mt-auto, #blog .card-body .mt-auto {
+      opacity: 0;
+      transition: opacity 0.5s;
+      margin-top: 0.5rem;
+    }
+    
+    /* En hover, mostrar también los botones */
+    #prensa .card:hover .card-body .text-center,
+    #prensa .card:hover .card-body .mt-auto,
+    #blog .card:hover .card-body .text-center, 
+    #blog .card:hover .card-body .mt-auto {
+      opacity: 1;
+    }
   </style>
 </head>
 <body class="no-js">
@@ -313,7 +166,7 @@
        HEADER / NAV — sticky, accesible, CTA acceso (maqueta)
        ====================================================== -->
   <header class="header" role="banner">
-    <div class="container-fluid px-3">
+    <div class="container">
       <nav class="nav" role="navigation" aria-label="Navegación principal">
         <!-- Logo a la izquierda -->
         <a href="#hero" class="nav__brand" aria-label="FICA - Ir al inicio">
